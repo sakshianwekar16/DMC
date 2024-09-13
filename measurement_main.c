@@ -1,4 +1,6 @@
-void run_tests(void) {
+#include <stdio.h>
+#include <math.h>
+void  run_rpm_tests(void) {
     // Define test cases with expected results
     struct {
         int adc_value;
@@ -30,9 +32,11 @@ void run_tests(void) {
     }
 }
 
-// Main function
 int main(void) {
-    // Run tests
-    run_tests();
+    // Call test functions
+    run_rpm_tests();
     return 0;
 }
+
+
+
