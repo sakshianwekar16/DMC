@@ -1,7 +1,11 @@
 #include <stdio.h>
+#include "Protection.h"
+#include "ThrottleProtection.h"
+#include "VoltageProtection.h"
+#include "CurrentProtection.h"
 
 // Function to check if the input number is between 1 and 6
-int check_hall_protection(unsigned int num) {
+unsigned check_hall_protection(unsigned int num) {
     // Perform the check
     if (num >= 1 && num <= 6) {
         return 1; // Pass
@@ -10,7 +14,7 @@ int check_hall_protection(unsigned int num) {
     }
 }
 
-int check_throttle(int throttle) {
+unsigned check_throttle(unsigned int throttle) {
     // Check if throttle is greater than 800
     if (throttle > 800) {
         return 1; // Throttle exceeds protection limit
@@ -47,10 +51,7 @@ int check_undervoltage(double voltage) {
     return (voltage < UNDER_VOLTAGE_THRESHOLD) ? 1 : 0; // Return 1 if undervoltage, 0 otherwise
 }
 
-//current Protection in CI/CD
-// Constants
-#define ADC_RESOLUTION 4095       // 12-bit ADC resolution
-#define REFERENCE_VOLTAGE 3.3     // Reference voltage in volts
+// Constants for current measurement
 #define SHUNT_RESISTOR 0.005      // Shunt resistor value in ohms
 #define GAIN 8.5                  // Gain factor
 #define CURRENT_THRESHOLD 20.0    // Maximum current value in amperes
@@ -65,7 +66,7 @@ void setup_currentMeasurementValues(void) {
     // Placeholder for future use if specific calculations are required
 }
 
-int calculateCurrent(unsigned int adc_value) {
+unsigned calculateCurrent(unsigned int adc_value) {
     // Apply a simple low-pass filter to smooth out the current measurement
     double difference = adc_value - filtered_current;
     double filtered_increment = difference / (1 << FILTER_SHIFT);

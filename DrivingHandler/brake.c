@@ -2,13 +2,13 @@
 #include <stdio.h> // For printing/debugging if needed
 
 // Function prototypes
-int adc_to_rpm(int adc_value, int max_rpm, int adc_max_value, int throttle_start_adc);
-int calculate_rpm(int adc_value, int max_rpm);
-int read_adc_value(void);
-void update_throttle(int brake, int *throttle, int max_rpm);
+unsigned int adc_to_rpm(unsigned int adc_value, unsigned int max_rpm, unsigned int adc_max_value, unsigned int throttle_start_adc);
+unsigned int calculate_rpm(unsigned int adc_value, unsigned int max_rpm);
+unsigned int read_adc_value(void);
+unsigned int update_throttle(unsigned int brake, int *throttle, unsigned int max_rpm);
 
 // Function to convert ADC value to RPM
-int adc_to_rpm(int adc_value, int max_rpm, int adc_max_value, int throttle_start_adc) {
+unsigned int adc_to_rpm(unsigned int adc_value,unsigned int max_rpm, unsigned int adc_max_value,unsigned int throttle_start_adc) {
     // Ensure the ADC value is within the valid range
     if (adc_value < throttle_start_adc) {
         adc_value = throttle_start_adc; // Use the throttle start value if ADC is below the threshold
@@ -25,7 +25,7 @@ int adc_to_rpm(int adc_value, int max_rpm, int adc_max_value, int throttle_start
 }
 
 // Function to calculate RPM based on ADC value
-int calculate_rpm(int adc_value, int max_rpm) {
+ unsigned int calculate_rpm(unsigned int adc_value, unsigned int max_rpm) {
     const int ADC_MAX_VALUE = 4096; // Maximum ADC value for 12-bit ADC
     const int THROTTLE_START_ADC = 1000; // ADC value where throttle starts
     
@@ -34,13 +34,13 @@ int calculate_rpm(int adc_value, int max_rpm) {
 }
 
 // Function to simulate reading from an ADC
-int read_adc_value(void) {
+unsigned int read_adc_value(void) {
     // Simulate reading from ADC buffer (replace with actual ADC read)
     return 1024; // Example value, replace with actual ADC read
 }
 
 // Function to update throttle based on brake status
-void update_throttle(int brake, int *throttle, int max_rpm) {
+unsigned int update_throttle(unsigned int brake, int *throttle,unsigned int max_rpm) {
     // Read the ADC value
     int adc_value = read_adc_value();
     
