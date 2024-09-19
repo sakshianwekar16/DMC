@@ -72,7 +72,7 @@ void setup_currentMeasurementValues(void) {
     // Placeholder for future use if specific calculations are required
 }
 
-uint32_t calculateCurrent(uint32_t adc_value) {
+uint32_t calculate_current(uint32_t adc_value) {
     // Apply a simple low-pass filter to smooth out the current measurement
     uint32_t difference = adc_value - filtered_current;
     uint32_t filtered_increment = difference / (1 << FILTER_SHIFT);

@@ -31,6 +31,6 @@ void setup_currentMeasurementValues(void);
  * @param adc_value The ADC value representing the current measurement.
  * @return 1 if the current is within the acceptable range, 0 otherwise (indicating a failure).
  */
-uint32_t calculateCurrent(uint32_t adc_value);
+uint32_t calculate_current(uint32_t adc_value);
 
 #endif // CURRENT_MEASUREMENT_H

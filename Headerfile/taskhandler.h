@@ -25,7 +25,7 @@ extern uint32_t brake;
 
 // Function prototypes
 void setup_currentMeasurementValues(void);
-uint32_t calculateCurrent(uint32_t adc_value);
+uint32_t calculate_current(uint32_t adc_value);
 uint32_t currentProtection(uint32_t current);
 uint32_t calculate_voltage(uint32_t adc_value);
 uint32_t check_overvoltage(uint32_t voltage);
