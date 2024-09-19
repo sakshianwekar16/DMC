@@ -10,8 +10,8 @@
 #define UNDER_VOLTAGE_THRESHOLD 28.0   // Threshold for undervoltage in volts
 
 // Voltage divider resistances
-extern const double R1; // Resistance of R1 in ohms
-extern const double R2; // Resistance of R2 in ohms
+extern const uint32_t R1; // Resistance of R1 in ohms
+extern const uint32_t R2; // Resistance of R2 in ohms
 
 /**
  * @brief Calculates the input voltage based on the ADC value.
@@ -22,7 +22,7 @@ extern const double R2; // Resistance of R2 in ohms
  * @param adc_value The ADC value to convert.
  * @return The calculated input voltage.
  */
-double calculate_voltage(unsigned int adc_value);
+uint32_t calculate_voltage(uint32_t adc_value);
 
 /**
  * @brief Checks if the input voltage is above the overvoltage threshold.
@@ -32,7 +32,7 @@ double calculate_voltage(unsigned int adc_value);
  * @param voltage The voltage to check.
  * @return 1 if the voltage is above the overvoltage threshold, 0 otherwise.
  */
-int check_overvoltage(double voltage);
+uint32_t check_overvoltage(uint32_t voltage);
 
 /**
  * @brief Checks if the input voltage is below the undervoltage threshold.
@@ -42,6 +42,6 @@ int check_overvoltage(double voltage);
  * @param voltage The voltage to check.
  * @return 1 if the voltage is below the undervoltage threshold, 0 otherwise.
  */
-int check_undervoltage(double voltage);
+uint32_t check_undervoltage(uint32_t voltage);
 
 #endif // VOLTAGE_MONITOR_H

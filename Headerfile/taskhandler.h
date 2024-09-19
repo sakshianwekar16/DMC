@@ -2,11 +2,11 @@
 #define TASKHANDLER_H
 
 #include <stdint.h>
-#include "input.h"
+
 // External variable declarations
-extern double filtered_current;
-extern double current;
-extern double voltage;
+extern uint32_t filtered_current;
+extern uint32_t current;
+extern uint32_t voltage;
 extern uint32_t rpm;
 extern uint32_t hall_position;
 extern uint32_t brake;
@@ -25,11 +25,11 @@ extern uint32_t brake;
 
 // Function prototypes
 void setup_currentMeasurementValues(void);
-double calculateCurrent(uint32_t adc_value);
-uint32_t currentProtection(double current);
-double calculate_voltage(uint32_t adc_value);
-uint32_t check_overvoltage(double voltage);
-uint32_t check_undervoltage(double voltage);
+uint32_t calculateCurrent(uint32_t adc_value);
+uint32_t currentProtection(uint32_t current);
+uint32_t calculate_voltage(uint32_t adc_value);
+uint32_t check_overvoltage(uint32_t voltage);
+uint32_t check_undervoltage(uint32_t voltage);
 uint32_t check_throttle(uint32_t rpm);
 uint32_t calculate_rpm(uint32_t adc_value, uint32_t max_rpm);
 uint32_t read_adc_value(void);
@@ -37,6 +37,7 @@ uint32_t adc_to_rpm(uint32_t adc_value, uint32_t max_rpm, uint32_t adc_max_value
 uint32_t check_hall_protection(uint32_t num);
 void handle_hall(void);
 uint32_t get_hall_position(void);
+uint32_t get_brakestatus(void);
 void slow_loop(void);
-
+void fast_loop(void);
 #endif // TASKHANDLER_H

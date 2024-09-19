@@ -4,6 +4,6 @@
 #define HALL_PROTECTION_H
 
 // Function prototype for checking if the input number is between 1 and 6
-unsigned check_hall_protection(unsigned int num);
+uint32_t check_hall_protection(uint32_t num);
 
 #endif // HALL_PROTECTION_H

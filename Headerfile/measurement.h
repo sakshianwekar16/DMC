@@ -22,6 +22,6 @@ void run_rpm_tests(void);
  * @param max_rpm The maximum RPM value corresponding to the maximum ADC value.
  * @return The calculated RPM value.
  */
-unsigned int calculate_rpm(unsigned int adc_value, unsigned int max_rpm);
+uint32_t calculate_rpm(uint32_t adc_value, uint32_t max_rpm);
 
 #endif // RPM_TESTS_H

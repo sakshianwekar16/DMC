@@ -2,7 +2,7 @@
 
 #ifndef TEST_THROTTLE_H
 #define TEST_THROTTLE_H
-
+#include <stdint.h>
 // Function declarations
 
 /**
@@ -15,7 +15,7 @@
  * @param throttle The throttle value to check.
  * @return 1 if the throttle exceeds the protection limit, 0 otherwise.
  */
-unsigned check_throttle(unsigned int throttle);
+uint32_t check_throttle(uint32_t throttle);
 
 /**
  * @brief Runs a test case for the check_throttle function and prints the result.

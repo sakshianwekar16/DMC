@@ -11,7 +11,7 @@
 #define FILTER_SHIFT 6            // Bit shift for filtering (equivalent to dividing by 64)
 
 // External variables for current measurement
-extern double current;             // Current value in amperes
+extern uint32_t current;             // Current value in amperes
 
 /**
  * @brief Setup function for current measurement.
@@ -31,6 +31,6 @@ void setup_currentMeasurementValues(void);
  * @param adc_value The ADC value representing the current measurement.
  * @return 1 if the current is within the acceptable range, 0 otherwise (indicating a failure).
  */
-unsigned int calculateCurrent(unsigned int adc_value);
+uint32_t calculateCurrent(uint32_t adc_value);
 
 #endif // CURRENT_MEASUREMENT_H

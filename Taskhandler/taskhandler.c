@@ -1,15 +1,16 @@
+#include <stdio.h>
 #include <stdint.h>
 #include "taskhandler.h"
-#include "input.h"  // Include this for the external function prototypes
+#include "math.h"  // Include this for the external function prototypes
 
 // External variables
-extern double filtered_current;
-extern double current;
-extern double voltage;
-extern uint32_t rpm;
-extern uint32_t hall_position;
-extern uint32_t brake;
-
+ uint32_t filtered_current =0;
+ uint32_t current=0;
+ uint32_t voltage=0;
+ uint32_t rpm=0;
+ uint32_t hall_position=0;
+ uint32_t brake=0;
+ 
 // Constants
 #define ADC_RESOLUTION 4096
 #define REFERENCE_VOLTAGE 3.3
@@ -29,10 +30,10 @@ void setup_currentMeasurementValues(void) {
 }
 
 // Function to calculate current based on ADC value
-double calculateCurrent(uint32_t adc_value) {
+uint32_t calculateCurrent(uint32_t adc_value) {
     // Apply a simple low-pass filter to smooth out the current measurement
-    double difference = adc_value - filtered_current;
-    double filtered_increment = difference / (1 << FILTER_SHIFT);
+    uint32_t difference = adc_value - filtered_current;
+    uint32_t filtered_increment = difference / (1 << FILTER_SHIFT);
     filtered_current += filtered_increment;
 
     // Calculate the actual current value in amperes
@@ -40,37 +41,33 @@ double calculateCurrent(uint32_t adc_value) {
 }
 
 // Function to check current protection based on calculated current
-uint32_t currentProtection(double current) {
+uint32_t currentProtection(uint32_t current) {
     // Check if the current exceeds the maximum allowed value
     return (current >= CURRENT_THRESHOLD) ? 1 : 0; // Return 1 if current exceeds or equals threshold, 0 otherwise
 }
 
 // Function to calculate voltage based on ADC value
-double calculate_voltage(uint32_t adc_value) {
+uint32_t calculate_voltage(uint32_t adc_value) {
     // Calculate the output voltage from ADC value
-    double Vout = (adc_value * REFERENCE_VOLTAGE) / ADC_RESOLUTION;
+    uint32_t Vout = (adc_value * REFERENCE_VOLTAGE) / ADC_RESOLUTION;
 
     // Calculate the input voltage based on the voltage divider formula
-    const double R1 = 438.507;
-    const double R2 = 10;
-    return (Vout * (R1 + R2)) / R2;
+    const uint32_t R1 = 438.507;
+    const uint32_t R2 = 10;
+    return(Vout * (R1 + R2)) / R2;
 }
 
 // Function to check if voltage exceeds overvoltage threshold
-uint32_t check_overvoltage(double voltage) {
+uint32_t check_overvoltage(uint32_t voltage) {
     return (voltage > OVER_VOLTAGE_THRESHOLD) ? 1 : 0; // Return 1 if overvoltage, 0 otherwise
 }
 
 // Function to check if voltage falls below undervoltage threshold
-uint32_t check_undervoltage(double voltage) {
+uint32_t check_undervoltage(uint32_t voltage) {
     return (voltage < UNDER_VOLTAGE_THRESHOLD) ? 1 : 0; // Return 1 if undervoltage, 0 otherwise
 }
 
-// Function to check throttle protection based on RPM
-uint32_t check_throttle(uint32_t rpm) {
-    // Check if RPM exceeds the threshold of 800
-    return (rpm > 800) ? 1 : 0; // Return 1 if RPM is greater than 800, 0 otherwise
-}
+
 
 // Function to convert ADC value to RPM
 uint32_t adc_to_rpm(uint32_t adc_value, uint32_t max_rpm, uint32_t adc_max_value, uint32_t throttle_start_adc) {
@@ -104,19 +101,22 @@ uint32_t check_hall_protection(uint32_t num) {
     return (num >= 1 && num <= 6) ? 1 : 0; // Return 1 if within range, 0 otherwise
 }
 
+uint32_t check_throttle(uint32_t rpm) {
+    // Check if throttle is greater than 800
+    return (rpm > 800) ? 1 : 0; // Return 1 if throttle exceeds protection limit, 0 otherwise
+}
+
 // Function to handle hall position and protection
 void handle_hall(void) {
     // Get hall position
     hall_position = get_hall_position();
+    
 
     // Check hall protection
-    uint32_t hall_protection_check = check_hall_protection(hall_position);
+    check_hall_protection(hall_position);
 
     // Perform actions based on hall protection check
-    if (!hall_protection_check) {
-        // Hall protection failed
-        // Perform actions if hall protection check fails
-    }
+
 }
 
 // Function to get hall position
@@ -126,33 +126,29 @@ void handle_hall(void) {
 void fast_loop(void) {
     // Read ADC value
     uint32_t adc_value = read_adc_value();
-
+    
     // Calculate current
-    double calculated_current = calculateCurrent(adc_value);
-
+    current = calculateCurrent(adc_value);
+    
     // Check current protection
-    uint32_t current_protection_status = currentProtection(calculated_current);
+  
 
     // Calculate voltage
     voltage = calculate_voltage(adc_value);
+    
+    // Check voltage protection
+    
+
 
     // Calculate RPM
     rpm = calculate_rpm(adc_value, MAX_RPM);
-
-    // Perform protection checks
-    uint32_t overvoltage_check = check_overvoltage(voltage);
-    uint32_t undervoltage_check = check_undervoltage(voltage);
-    uint32_t throttle_check = check_throttle(rpm);
-
+    
     // Handle hall protection
-    handle_hall();
+
 
     // Implement additional logic if needed
 }
-
-// Slow loop function to check brake status and adjust RPM accordingly
-void slow_loop(void) {
-    // Check brake status
+ void update_rpm_based_on_brake_status(uint32_t brake) {
     if (brake == 1) {
         // Brake is engaged, set throttle RPM to 0
         rpm = 0;
@@ -161,6 +157,13 @@ void slow_loop(void) {
         uint32_t adc_value = read_adc_value();
         rpm = calculate_rpm(adc_value, MAX_RPM);
     }
+ }
+// Slow loop function to check brake status and adjust RPM accordingly
+void slow_loop(void) {
+    // Check brake status
+    brake = get_brakestatus();
+    update_rpm_based_on_brake_status(brake);
+}
+
 
     // Additional processing based on brake status and RPM can be added here
-}
