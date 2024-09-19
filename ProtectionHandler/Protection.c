@@ -17,9 +17,9 @@ uint32_t check_hall_protection(uint32_t num) {
     return (num >= 1 && num <= 6) ? 1 : 0; // Return 1 for pass, 0 for fail
 }
 
-uint32_t check_throttle(uint32_t throttle) {
+uint32_t check_throttle(uint32_t rpm) {
     // Check if throttle is greater than 800
-    return (throttle > 800) ? 1 : 0; // Return 1 if throttle exceeds protection limit, 0 otherwise
+    return (rpm > 800) ? 1 : 0; // Return 1 if throttle exceeds protection limit, 0 otherwise
 }
 
 // Function to check for overvoltage

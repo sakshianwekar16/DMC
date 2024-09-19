@@ -2,7 +2,7 @@
 
 #ifndef RPM_TESTS_H
 #define RPM_TESTS_H
-
+#include"stdint.h"
 /**
  * @brief Runs RPM test cases and prints the results.
  *
@@ -11,7 +11,7 @@
  * and compares it with the expected result. It prints whether each test case passed or failed.
  */
 void run_rpm_tests(void);
-
+uint32_t adc_to_rpm(uint32_t adc_value, uint32_t max_rpm, uint32_t adc_max_value, uint32_t throttle_start_adc);
 /**
  * @brief Calculates RPM based on ADC value and maximum RPM.
  *
@@ -22,6 +22,6 @@ void run_rpm_tests(void);
  * @param max_rpm The maximum RPM value corresponding to the maximum ADC value.
  * @return The calculated RPM value.
  */
-uint32_t calculate_rpm(uint32_t adc_value, uint32_t max_rpm);
+ uint32_t calculate_rpm(uint32_t adc_value, uint32_t max_rpm);
 
 #endif // RPM_TESTS_H

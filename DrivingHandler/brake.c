@@ -1,6 +1,25 @@
 // brake.c
-#include <stdio.h> // For printing/debugging if needed
-//
+#include <stdio.h>
+#include"sharedData.h" 
+#include <stdint.h>
+
+#define ADC_MAX_VALUE 4096
+#define MAX_RPM 1300
+
+uint32_t convert_adc_to_rpm(adcvalue) {
+    // Scale ADC value to RPM range
+    return (adcvalue * MAX_RPM) / (ADC_MAX_VALUE - 1);  // Adjust if ADC_MAX_VALUE is not 4095
+}
+uint32_t rpm;
+void update_rpm_based_on_brake_status(uint32_t brake_status) {
+    if (brake_status > 0) {
+        // If brake is applied, set RPM to minimum
+        rpm = 0;
+    } else {
+        // If brake is not applied, convert ADC value to RPM
+        rpm = convert_adc_to_rpm(adcvalue);
+    }
+}
 //// Function prototypes
 //unsigned int adc_to_rpm(unsigned int adc_value, unsigned int max_rpm, unsigned int adc_max_value, unsigned int throttle_start_adc);
 //unsigned int calculate_rpm(unsigned int adc_value, unsigned int max_rpm);
