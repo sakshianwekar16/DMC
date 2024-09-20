@@ -16,7 +16,7 @@ typedef struct {
 extern ADC_DATA_t adcvalue;
 
 typedef struct {
-	ADC_DATA_t current, voltage, throttle;
+	ADC_DATA_t Current, Voltage, throttle;
 	uint8_t brakeRaw, brake;
 	uint8_t hallPosition;
 } MEASURED_t;

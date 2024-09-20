@@ -5,5 +5,9 @@
 
 // Function prototype for checking if the input number is between 1 and 6
 uint32_t check_hall_protection(uint32_t num);
+uint32_t check_throttle(uint32_t rpm);
+uint32_t check_overvoltage(uint32_t voltage);
+uint32_t check_undervoltage(uint32_t voltage);
+uint32_t check_overCurrent(uint32_t current);
 
 #endif // HALL_PROTECTION_H

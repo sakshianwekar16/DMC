@@ -31,14 +31,6 @@ uint32_t calculate_rpm(uint32_t adc_value, uint32_t max_rpm) {
     return adc_to_rpm(adc_value, max_rpm, ADC_MAX_VALUE, THROTTLE_START_ADC);
 }
 
-// Function to read ADC value, simulate ADC buffer input
-uint32_t read_adc_value(void) {
-    // Simulate reading from ADC buffer (replace this with actual ADC read)
-    uint32_t adc_value = 1024; // Example value, replace with actual ADC read
-
-    // Return ADC value
-    return adc_value;
-}
 
 #define ADC_RESOLUTION 4096
 #define REFERENCE_VOLTAGE 3.3

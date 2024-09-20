@@ -14,7 +14,7 @@
 // Function to check if the input number is between 1 and 6
 uint32_t check_hall_protection(uint32_t num) {
     // Perform the check
-    return (num >= 1 && num <= 6) ? 1 : 0; // Return 1 for pass, 0 for fail
+    return (num >= 1 && num <= 6) ? 0 : 1; // Return 1 for pass, 0 for fail
 }
 
 uint32_t check_throttle(uint32_t rpm) {
