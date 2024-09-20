@@ -22,7 +22,7 @@ uint32_t adc_to_rpm(uint32_t adc_value, uint32_t max_rpm, uint32_t adc_max_value
  * @param max_rpm The maximum RPM value corresponding to the maximum ADC value.
  * @return The calculated RPM value.
  */
-uint32_t calculate_rpm(uint32_t adc_value, uint32_t max_rpm);
+uint32_t calculate_throttle(uint32_t adc_value, uint32_t max_rpm);
 
 uint32_t calculate_voltage(uint32_t adc_value);
 uint32_t calculate_current(uint32_t adc_value);

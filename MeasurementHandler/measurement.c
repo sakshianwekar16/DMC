@@ -23,7 +23,7 @@ uint32_t adc_to_rpm(uint32_t adc_value, uint32_t max_rpm, uint32_t adc_max_value
 }
 
 // Function to calculate RPM based on ADC value
-uint32_t calculate_rpm(uint32_t adc_value, uint32_t max_rpm) {
+uint32_t calculate_throttle(uint32_t adc_value, uint32_t max_rpm) {
     const uint32_t ADC_MAX_VALUE = 4096; // Maximum ADC value for 12-bit ADC
     const uint32_t THROTTLE_START_ADC = 1000; // ADC value where throttle starts
     

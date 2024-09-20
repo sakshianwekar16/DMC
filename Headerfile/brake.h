@@ -28,7 +28,7 @@ int adc_to_rpm(int adc_value, int max_rpm, int adc_max_value, int throttle_start
  * @param max_rpm The maximum RPM corresponding to the maximum ADC value.
  * @return The calculated RPM value.
  */
-int calculate_rpm(int adc_value, int max_rpm);
+int calculate_throttle(int adc_value, int max_rpm);
 
 /**
  * @brief Reads ADC value from a simulated ADC buffer.
