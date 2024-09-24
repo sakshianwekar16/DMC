@@ -3,15 +3,6 @@
 #ifndef VOLTAGE_MONITOR_H
 #define VOLTAGE_MONITOR_H
 
-// Constants for ADC and voltage thresholds
-#define ADC_RESOLUTION 4096            // ADC resolution (e.g., 12-bit ADC)
-#define REFERENCE_VOLTAGE 3.3          // Reference voltage for ADC
-#define OVER_VOLTAGE_THRESHOLD 48.0    // Threshold for overvoltage in volts
-#define UNDER_VOLTAGE_THRESHOLD 28.0   // Threshold for undervoltage in volts
-
-// Voltage divider resistances
-extern const uint32_t R1; // Resistance of R1 in ohms
-extern const uint32_t R2; // Resistance of R2 in ohms
 
 /**
  * @brief Calculates the input voltage based on the ADC value.
@@ -22,7 +13,7 @@ extern const uint32_t R2; // Resistance of R2 in ohms
  * @param adc_value The ADC value to convert.
  * @return The calculated input voltage.
  */
-uint32_t calculate_voltage(uint32_t adc_value);
+ float calculate_voltage(uint32_t adc_value);
 
 /**
  * @brief Checks if the input voltage is above the overvoltage threshold.

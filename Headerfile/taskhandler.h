@@ -3,6 +3,8 @@
 
 #include <stdint.h>
 
+
+
 // External variable declarations
 //extern uint32_t filtered_current;
 //extern uint32_t current;
@@ -40,4 +42,5 @@ void handle_hall(uint8_t hall);
 //uint32_t check_overCurrent(current);
 void slow_loop(void);
 void fast_loop(void);
+
 #endif // TASKHANDLER_H

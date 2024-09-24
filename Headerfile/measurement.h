@@ -2,7 +2,7 @@
 
 #ifndef RPM_TESTS_H
 #define RPM_TESTS_H
-#include"stdint.h"
+#include<stdint.h>
 /**
  * @brief Runs RPM test cases and prints the results.
  *
@@ -10,6 +10,8 @@
  * RPM results. It calls the calculate_rpm function to compute the RPM for each ADC value
  * and compares it with the expected result. It prints whether each test case passed or failed.
  */
+// extern float voltage;
+// extern float current;
 void run_rpm_tests(void);
 uint32_t adc_to_rpm(uint32_t adc_value, uint32_t max_rpm, uint32_t adc_max_value, uint32_t throttle_start_adc);
 /**
@@ -24,8 +26,8 @@ uint32_t adc_to_rpm(uint32_t adc_value, uint32_t max_rpm, uint32_t adc_max_value
  */
 uint32_t calculate_throttle(uint32_t adc_value, uint32_t max_rpm);
 
-uint32_t calculate_voltage(uint32_t adc_value);
-uint32_t calculate_current(uint32_t adc_value);
+float calculate_voltage(uint32_t adc_value);
+float calculate_current(uint32_t adc_value);
 
 
 #endif // RPM_TESTS_H

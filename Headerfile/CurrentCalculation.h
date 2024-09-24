@@ -1,17 +1,9 @@
 // current_measurement.h
-
+#include<stdint.h>
 #ifndef CURRENT_MEASUREMENT_H
 #define CURRENT_MEASUREMENT_H
 
-// Constants for current measurement
-#define REFERANCE_VOLTAGE 3.3
-#define SHUNT_RESISTOR 0.005      // Shunt resistor value in ohms
-#define GAIN 8.5                  // Gain factor for current measurement
-#define CURRENT_THRESHOLD 20.0    // Maximum allowed current value in amperes
-#define FILTER_SHIFT 6            // Bit shift for filtering (equivalent to dividing by 64)
-
-// External variables for current measurement
-extern uint32_t current;             // Current value in amperes
+            
 
 /**
  * @brief Setup function for current measurement.
@@ -31,6 +23,5 @@ void setup_currentMeasurementValues(void);
  * @param adc_value The ADC value representing the current measurement.
  * @return 1 if the current is within the acceptable range, 0 otherwise (indicating a failure).
  */
-uint32_t calculate_current(uint32_t adc_value);
-
+float calculate_current(uint32_t adc_value);
 #endif // CURRENT_MEASUREMENT_H

@@ -5,27 +5,14 @@
 #include "math.h"  // Include this for external math functions
 #include "Protection.h"
 #include "measurement.h"
+#include "VoltageCalculation.h"
+#include"VoltageProtection.h"
+#include "CurrentCalculation.h"
+#include"CurrentProtection.h" 
 
-// External variables
-//uint32_t filtered_current = 0;
-//uint32_t current = 0;
-//uint32_t voltage = 0;
-//uint32_t rpm = 0;
-//uint32_t hall_position = 0;
-//uint32_t brake = 0;
 
-// Constants
-#define ADC_RESOLUTION 4096
-#define REFERENCE_VOLTAGE 3.3
-#define OVER_VOLTAGE_THRESHOLD 48.0
-#define UNDER_VOLTAGE_THRESHOLD 28.0
-#define SHUNT_RESISTOR 0.005
-#define GAIN 8.5
-#define CURRENT_THRESHOLD 20.0
-#define FILTER_SHIFT 6
-#define ADC_MAX_VALUE 4096
-#define THROTTLE_START_ADC 1000
-#define MAX_RPM 1300
+
+
 
 MEASURED_t Measured;
 PROTECTION_t Protection;
@@ -42,8 +29,8 @@ void handle_hall(uint8_t hall) {
 // Main loop or fast loop function
 void fast_loop(void) {
     // Use adcvalue from shareddata.h
-//    Measured.current.raw = adcvalue.raw;
-//    Measured.voltage.raw = adcvalue.raw;  // Assuming another ADC channel handles voltage
+// /    Measured.current.raw = adcvalue;
+//      Measured.voltage.raw = adcvalue;  // Assuming another ADC channel handles voltage
 
     // Calculate current and voltage
     Measured.Current.calculated = calculate_current(Measured.Current.raw);

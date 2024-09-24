@@ -3,8 +3,7 @@
 #include"sharedData.h" 
 #include <stdint.h>
 
-#define ADC_MAX_VALUE 4096
-#define MAX_RPM 1300
+
 
 uint32_t convert_adc_to_rpm(adcvalue) {
     // Scale ADC value to RPM range
