@@ -19,8 +19,10 @@
 #define ADC_MAX_VALUE 4096
 #define THROTTLE_START_ADC 1000
 #define MAX_RPM 1300
-extern const uint32_t R1;
-extern const uint32_t R2;
+// extern const uint32_t R1;
+// extern const uint32_t R2;
+#define R1 438.507
+#define R2 10
 extern float filtered_current;  // Filtered current value
 extern float current;
 

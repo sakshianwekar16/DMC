@@ -5,8 +5,8 @@
 #include "CurrentCalculation.h"
 #include "math.h"
 #include "sharedData.h"
-const uint32_t R1 = 438.507;
-const uint32_t R2 = 10;
+// const uint32_t R1 = 438.507;
+// const uint32_t R2 = 10;
 float filtered_current = 0;  // Filtered current valu
 float current = 0.0;
 float voltage =0;
