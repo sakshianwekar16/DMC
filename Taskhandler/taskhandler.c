@@ -35,6 +35,7 @@ void fast_loop(void) {
     // Calculate current and voltage
     Measured.Current.calculated = calculate_current(Measured.Current.raw);
     Measured.Voltage.calculated = calculate_voltage(Measured.Voltage.raw);
+    Measured.throttle.calculated =calculate_throttle(Measured.throttle.raw,MAX_RPM);
 
     // Store the filtered current and calculated current
 //    Measured.Current.filtered = filtered_current;
@@ -49,6 +50,7 @@ void fast_loop(void) {
 
     // Call the current protection check
     Protection.faults.overCurrent = check_overCurrent(Measured.Current.calculated);
+    Protection.faults.throttle = check_throttle(Measured.throttle.calculated);
 //    Protection.faults.throttle = check_throttle(rpm);
 }
 

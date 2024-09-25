@@ -4,7 +4,7 @@
  *  Created on: Sep 19, 2024
  *      Author: Admin
  */
-#include<stdint.h>
+#include <stdint.h>
 #ifndef HEADERFILE_SHAREDDATA_H_
 #define HEADERFILE_SHAREDDATA_H_
 
@@ -19,47 +19,49 @@
 #define ADC_MAX_VALUE 4096
 #define THROTTLE_START_ADC 1000
 #define MAX_RPM 1300
+
 extern const uint32_t R1;
 extern const uint32_t R2;
 extern float filtered_current;  // Filtered current value
 extern float current;
 
 typedef struct {
-	uint16_t raw;
-	uint16_t filtered;
-	int32_t calculated;
+    uint16_t raw;
+    uint16_t filtered;
+    int32_t calculated;
 } ADC_DATA_t;
 extern ADC_DATA_t adcvalue;
 
 typedef struct {
-	ADC_DATA_t Current, Voltage, throttle;
-	uint8_t brakeRaw, brake;
-	uint8_t hallPosition;
+    ADC_DATA_t Current, Voltage, throttle;
+    uint8_t brakeRaw, brake;
+    uint8_t hallPosition;
+    uint16_t rawADCValues[4]; // Array to store raw ADC values
 } MEASURED_t;
 extern MEASURED_t Measured;
 
 typedef struct {
-	union {
-		struct{
-			uint16_t hallInvalid : 1;
-			uint16_t stall : 1;
-			uint16_t throttle : 1;
-			uint16_t : 1;
-			uint16_t underVolt : 1;
-			uint16_t overVolt : 1;
-			uint16_t : 1;
-			uint16_t overCurrent : 1;
-			uint16_t : 1;
-			uint16_t overTemperature : 1;
-			uint16_t : 1;
-			uint16_t : 1;
-			uint16_t : 1;
-			uint16_t : 1;
-			uint16_t : 1;
-			uint16_t : 1;
-		};
-		uint16_t value;
-	} faults;
+    union {
+        struct {
+            uint16_t hallInvalid : 1;
+            uint16_t stall : 1;
+            uint16_t throttle : 1;
+            uint16_t : 1;
+            uint16_t underVolt : 1;
+            uint16_t overVolt : 1;
+            uint16_t : 1;
+            uint16_t overCurrent : 1;
+            uint16_t : 1;
+            uint16_t overTemperature : 1;
+            uint16_t : 1;
+            uint16_t : 1;
+            uint16_t : 1;
+            uint16_t : 1;
+            uint16_t : 1;
+            uint16_t : 1;
+        };
+        uint16_t value;
+    } faults;
 } PROTECTION_t;
 extern PROTECTION_t Protection;
 
