@@ -34,29 +34,29 @@ uint32_t adc_to_rpm(uint32_t adc_value, uint32_t max_rpm, uint32_t adc_max_value
 uint32_t calculate_throttle(uint32_t adc_value,uint32_t max_rpm) {
     
     // Calculate RPM
-    return adc_to_rpm(adc_value,fixedvalue.MAX_RPM, fixedvalue.ADC_MAX_VALUE, fixedvalue.THROTTLE_START_ADC);
+    return adc_to_rpm(adc_value,Fixedvalue.MAX_RPM, Fixedvalue.ADC_MAX_VALUE, Fixedvalue.THROTTLE_START_ADC);
 }
 
 // Function to calculate the input voltage based on ADC value
 float calculate_voltage(uint32_t adc_value) {
     // Calculate the output voltage from ADC value
-    float Vout = (adc_value * fixedvalue.REFERENCE_VOLTAGE) / fixedvalue.ADC_RESOLUTION;
+    float Vout = (adc_value * Fixedvalue.REFERENCE_VOLTAGE) / Fixedvalue.ADC_RESOLUTION;
 
     // Calculate the input voltage based on the voltage divider formula
-    fixedvalue.voltage = (Vout * (fixedvalue.R1 + fixedvalue.R2)) / fixedvalue.R2;
-    return fixedvalue.voltage;
+    Fixedvalue.voltage = (Vout * (Fixedvalue.R1 + Fixedvalue.R2)) / Fixedvalue.R2;
+    return Fixedvalue.voltage;
 }
 
 
 float calculate_current(uint32_t adc_value) {
     // Apply a simple low-pass filter to smooth out the current measurement
-    float difference = adc_value - fixedvalue.filtered_current;
-    float filtered_increment = difference / (1 << fixedvalue.FILTER_SHIFT);
-    fixedvalue.filtered_current += filtered_increment;
+    float difference = adc_value - Fixedvalue.filtered_current;
+    float filtered_increment = difference / (1 << Fixedvalue.FILTER_SHIFT);
+    Fixedvalue.filtered_current += filtered_increment;
 
     // Calculate the actual current value in amperes
-    fixedvalue.current = ((fixedvalue.filtered_current * fixedvalue.REFERENCE_VOLTAGE) /( fixedvalue.ADC_RESOLUTION* fixedvalue.SHUNT_RESISTOR * fixedvalue.GAIN));
+    Fixedvalue.current = ((Fixedvalue.filtered_current * Fixedvalue.REFERENCE_VOLTAGE) /( Fixedvalue.ADC_RESOLUTION* Fixedvalue.SHUNT_RESISTOR * Fixedvalue.GAIN));
 
     // Return current as an unsigned int, assuming it's appropriate for your needs
-    return fixedvalue.current;
+    return Fixedvalue.current;
 }

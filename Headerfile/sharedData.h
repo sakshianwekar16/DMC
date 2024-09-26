@@ -49,7 +49,7 @@ typedef struct {
     uint32_t FILTER_SHIFT;
     uint32_t ADC_MAX_VALUE;// Resistance R2
 }FIXED_VALS_t;
-extern FIXED_VALS_t fixedvalue;
+extern FIXED_VALS_t Fixedvalue;
 
 typedef struct {
 	uint16_t raw;

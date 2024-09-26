@@ -23,23 +23,23 @@
 #include"stdint.h"
 #include"sharedData.h"
 #include"initialconfig.h"
-FIXED_VALS_t fixedvalue;
+FIXED_VALS_t Fixedvalue;
 
 void initialvalueassignment(void){
-	fixedvalue.filtered_current = 0.0f;
-	fixedvalue.current = 0.0f;
-	fixedvalue.voltage = 0.0f;
-	fixedvalue.SHUNT_RESISTOR = 0.005;
-	fixedvalue.GAIN = 8.5;
-	fixedvalue.ADC_RESOLUTION = 4096;
-	fixedvalue.REFERENCE_VOLTAGE = 3.3;
-	fixedvalue.OVER_VOLTAGE_THRESHOLD = 48.0;
-	fixedvalue.UNDER_VOLTAGE_THRESHOLD = 28.0;
-	fixedvalue.CURRENT_THRESHOLD = 20.0;
-	fixedvalue.THROTTLE_START_ADC = 1000;
-	fixedvalue.MAX_RPM = 1300;
-	fixedvalue.R1 = 17380;
-	fixedvalue.R2 = 1000;
-	fixedvalue.FILTER_SHIFT =6;
-	fixedvalue.ADC_MAX_VALUE =4096;
+	Fixedvalue.filtered_current = 0.0f;
+	Fixedvalue.current = 0.0f;
+	Fixedvalue.voltage = 0.0f;
+	Fixedvalue.SHUNT_RESISTOR = 0.005;
+	Fixedvalue.GAIN = 8.5;
+	Fixedvalue.ADC_RESOLUTION = 4096;
+	Fixedvalue.REFERENCE_VOLTAGE = 3.3;
+	Fixedvalue.OVER_VOLTAGE_THRESHOLD = 48.0;
+	Fixedvalue.UNDER_VOLTAGE_THRESHOLD = 28.0;
+	Fixedvalue.CURRENT_THRESHOLD = 20.0;
+	Fixedvalue.THROTTLE_START_ADC = 1000;
+	Fixedvalue.MAX_RPM = 1300;
+	Fixedvalue.R1 = 17380;
+	Fixedvalue.R2 = 1000;
+	Fixedvalue.FILTER_SHIFT =6;
+	Fixedvalue.ADC_MAX_VALUE =4096;
 }

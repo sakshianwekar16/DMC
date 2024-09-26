@@ -22,15 +22,15 @@ uint32_t check_throttle(uint32_t rpm) {
 
 // Function to check for overvoltage
 uint32_t check_overvoltage(uint32_t voltage) {
-    return (voltage > fixedvalue.OVER_VOLTAGE_THRESHOLD) ? 1 : 0; // Return 1 if overvoltage, 0 otherwise
+    return (voltage > Fixedvalue.OVER_VOLTAGE_THRESHOLD) ? 1 : 0; // Return 1 if overvoltage, 0 otherwise
 }
 
 // Function to check for undervoltage
 uint32_t check_undervoltage(uint32_t voltage) {
-    return (voltage < fixedvalue.UNDER_VOLTAGE_THRESHOLD) ? 1 : 0; // Return 1 if undervoltage, 0 otherwise
+    return (voltage < Fixedvalue.UNDER_VOLTAGE_THRESHOLD) ? 1 : 0; // Return 1 if undervoltage, 0 otherwise
 }
 
 uint32_t check_overCurrent(uint32_t current) {
     // Check if the current exceeds the maximum allowed value
-    return (current > fixedvalue.CURRENT_THRESHOLD) ? 1 : 0; // Return 0 for fail, 1 for pass
+    return (current > Fixedvalue.CURRENT_THRESHOLD) ? 1 : 0; // Return 0 for fail, 1 for pass
 }

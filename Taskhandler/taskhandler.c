@@ -42,7 +42,7 @@ void fast_loop(void) {
     // Calculate current and voltage
     Measured.Current.calculated = calculate_current(Measured.Current.raw);
     Measured.Voltage.calculated = calculate_voltage(Measured.Voltage.raw);
-    Measured.throttle.calculated =calculate_throttle(Measured.throttle.raw,fixedvalue.MAX_RPM);
+    Measured.throttle.calculated =calculate_throttle(Measured.throttle.raw,Fixedvalue.MAX_RPM);
 
 
     Protection.faults.overVolt = check_overvoltage(Measured.Voltage.calculated);
