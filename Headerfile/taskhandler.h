@@ -36,6 +36,7 @@
 //uint32_t read_adc_value(void);
 //uint32_t adc_to_rpm(uint32_t adc_value, uint32_t max_rpm, uint32_t adc_max_value, uint32_t throttle_start_adc);
 //uint32_t check_hall_protection(uint32_t num);
+void update_ADC(uint32_t current,uint32_t voltage,uint32_t throttle);
 void handle_hall(uint8_t hall);
 //uint32_t get_hall_position(void);
 //uint32_t get_brakestatus(void);

@@ -8,7 +8,8 @@
 #include "VoltageCalculation.h"
 #include"VoltageProtection.h"
 #include "CurrentCalculation.h"
-#include"CurrentProtection.h" 
+#include"CurrentProtection.h"
+#include"initialconfig.h"
 
 
 
@@ -16,6 +17,7 @@
 
 MEASURED_t Measured;
 PROTECTION_t Protection;
+
 
 // Function to handle hall position and protection
 void handle_hall(uint8_t hall) {
@@ -27,24 +29,22 @@ void handle_hall(uint8_t hall) {
 }
 
 // Main loop or fast loop function
+
+void update_ADC(uint32_t current,uint32_t voltage,uint32_t throttle){
+	 Measured.Current.raw = current;
+	 Measured.Voltage.raw = voltage;
+	 Measured.throttle.raw =throttle;
+}
 void fast_loop(void) {
-    // Use adcvalue from shareddata.h
-// /    Measured.current.raw = adcvalue;
-//      Measured.voltage.raw = adcvalue;  // Assuming another ADC channel handles voltage
+
+
 
     // Calculate current and voltage
     Measured.Current.calculated = calculate_current(Measured.Current.raw);
     Measured.Voltage.calculated = calculate_voltage(Measured.Voltage.raw);
-    Measured.throttle.calculated =calculate_throttle(Measured.throttle.raw,MAX_RPM);
+    Measured.throttle.calculated =calculate_throttle(Measured.throttle.raw,fixedvalue.MAX_RPM);
 
-    // Store the filtered current and calculated current
-//    Measured.Current.filtered = filtered_current;
-//    Measured.Current.calculated = current;
 
-    // Calculate RPM from throttle ADC value
-//    rpm = calculate_rpm(adcvalue.raw, MAX_RPM);
-
-    // Call overvoltage and undervoltage protection checks
     Protection.faults.overVolt = check_overvoltage(Measured.Voltage.calculated);
     Protection.faults.underVolt = check_undervoltage(Measured.Voltage.calculated);
 

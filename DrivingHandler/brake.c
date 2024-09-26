@@ -2,12 +2,14 @@
 #include <stdio.h>
 #include"sharedData.h" 
 #include <stdint.h>
-
+#include"sharedData.h"
+#include"initialconfig.h"
+//FIXED_VALS_t fixedvalue;
 
 
 uint32_t convert_adc_to_rpm(adcvalue) {
     // Scale ADC value to RPM range
-    return (adcvalue * MAX_RPM) / (ADC_MAX_VALUE - 1);  // Adjust if ADC_MAX_VALUE is not 4095
+    return (adcvalue * fixedvalue.MAX_RPM) / (fixedvalue.ADC_MAX_VALUE - 1);  // Adjust if ADC_MAX_VALUE is not 4095
 }
 uint32_t rpm;
 void update_rpm_based_on_brake_status(uint32_t brake_status) {

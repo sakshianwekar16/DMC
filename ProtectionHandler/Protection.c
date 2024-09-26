@@ -5,9 +5,10 @@
 #include "VoltageProtection.h"
 #include "CurrentProtection.h"
 #include "sharedData.h"
+#include "initialconfig.h"
 
 
-
+//FIXED_VALS_t fixedvalue;
 // Function to check if the input number is between 1 and 6
 uint32_t check_hall_protection(uint32_t num) {
     // Perform the check
@@ -21,15 +22,15 @@ uint32_t check_throttle(uint32_t rpm) {
 
 // Function to check for overvoltage
 uint32_t check_overvoltage(uint32_t voltage) {
-    return (voltage > OVER_VOLTAGE_THRESHOLD) ? 1 : 0; // Return 1 if overvoltage, 0 otherwise
+    return (voltage > fixedvalue.OVER_VOLTAGE_THRESHOLD) ? 1 : 0; // Return 1 if overvoltage, 0 otherwise
 }
 
 // Function to check for undervoltage
 uint32_t check_undervoltage(uint32_t voltage) {
-    return (voltage < UNDER_VOLTAGE_THRESHOLD) ? 1 : 0; // Return 1 if undervoltage, 0 otherwise
+    return (voltage < fixedvalue.UNDER_VOLTAGE_THRESHOLD) ? 1 : 0; // Return 1 if undervoltage, 0 otherwise
 }
 
 uint32_t check_overCurrent(uint32_t current) {
     // Check if the current exceeds the maximum allowed value
-    return (current > CURRENT_THRESHOLD) ? 1 : 0; // Return 0 for fail, 1 for pass
+    return (current > fixedvalue.CURRENT_THRESHOLD) ? 1 : 0; // Return 0 for fail, 1 for pass
 }
