@@ -1,24 +1,28 @@
 // brake.c
-#include <stdio.h>
-#include"sharedData.h" 
+#include <stdio.h> 
 #include <stdint.h>
+#include"brake.h"
+#include"measurement.h"
 #include"sharedData.h"
 #include"initialconfig.h"
+#include"taskhandler.h"
 //FIXED_VALS_t fixedvalue;
+MEASURED_t Measured;
 
 
-uint32_t convert_adc_to_rpm(adcvalue) {
-    // Scale ADC value to RPM range
-    return (adcvalue * Fixedvalue.MAX_RPM) / (Fixedvalue.ADC_MAX_VALUE - 1);  // Adjust if ADC_MAX_VALUE is not 4095
-}
-uint32_t rpm;
-void update_rpm_based_on_brake_status(uint32_t brake_status) {
-    if (brake_status > 0) {
+// uint32_t convert_adc_to_rpm(adcvalue) {
+//     // Scale ADC value to RPM range
+//     return (adcvalue * Fixedvalue.MAX_RPM) / (Fixedvalue.ADC_MAX_VALUE - 1);  // Adjust if ADC_MAX_VALUE is not 4095
+// }
+// uint32_t target_rpm;
+uint32_t update_rpm_based_on_brake_status(uint32_t brake_status) {
+    if (brake_status == 1 ) {
         // If brake is applied, set RPM to minimum
-        rpm = 0;
+        return 0;
     } else {
         // If brake is not applied, convert ADC value to RPM
-        rpm = convert_adc_to_rpm(adcvalue);
+        return Measured.throttle.calculated;
+
     }
 }
 //// Function prototypes

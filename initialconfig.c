@@ -42,4 +42,5 @@ void initialvalueassignment(void){
 	Fixedvalue.R2 = 1000;
 	Fixedvalue.FILTER_SHIFT =6;
 	Fixedvalue.ADC_MAX_VALUE =4096;
+	Fixedvalue.target_rpm = 0;
 }

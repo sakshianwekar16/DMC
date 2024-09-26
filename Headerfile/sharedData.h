@@ -47,7 +47,8 @@ typedef struct {
     uint32_t R1;             // Resistance R1
     uint32_t R2;
     uint32_t FILTER_SHIFT;
-    uint32_t ADC_MAX_VALUE;// Resistance R2
+    uint32_t ADC_MAX_VALUE;
+	uint32_t target_rpm;// Resistance R2
 }FIXED_VALS_t;
 extern FIXED_VALS_t Fixedvalue;
 

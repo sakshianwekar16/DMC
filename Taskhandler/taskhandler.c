@@ -10,6 +10,7 @@
 #include "CurrentCalculation.h"
 #include"CurrentProtection.h"
 #include"initialconfig.h"
+#include"brake.h"
 
 
 
@@ -30,10 +31,11 @@ void handle_hall(uint8_t hall) {
 
 // Main loop or fast loop function
 
-void update_ADC(uint32_t current,uint32_t voltage,uint32_t throttle){
+void update_ADC(uint32_t current,uint32_t voltage,uint32_t throttle,uint32_t brake){
 	 Measured.Current.raw = current;
 	 Measured.Voltage.raw = voltage;
 	 Measured.throttle.raw =throttle;
+     Measured.brakeRaw =brake;
 }
 void fast_loop(void) {
 
@@ -58,11 +60,5 @@ void fast_loop(void) {
 
 // Slow loop function to check brake status and adjust RPM accordingly
 void slow_loop(void) {
-    // Check brake status
-//    brake = get_brakestatus();
-//    Measured.brakeRaw = S;
-
-    // Adjust RPM based on brake status
-//    brake = update_rpm_based_on_brake_status(brake);
-    
+   Measured.brake = update_rpm_based_on_brake_status(Measured.brakeRaw);    
 }

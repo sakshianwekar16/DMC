@@ -2,6 +2,7 @@
 
 #ifndef BRAKE_H
 #define BRAKE_H
+#include<stdint.h>
 
 // Function declarations
 
@@ -16,7 +17,7 @@
  * @param throttle_start_adc The ADC value where throttle starts.
  * @return The calculated RPM value.
  */
-int adc_to_rpm(int adc_value, int max_rpm, int adc_max_value, int throttle_start_adc);
+// uint32_t adc_to_rpm(adc_value,Fixedvalue.MAX_RPM, Fixedvalue.ADC_MAX_VALUE, Fixedvalue.THROTTLE_START_ADC);
 
 /**
  * @brief Calculates RPM based on ADC value.
@@ -28,7 +29,8 @@ int adc_to_rpm(int adc_value, int max_rpm, int adc_max_value, int throttle_start
  * @param max_rpm The maximum RPM corresponding to the maximum ADC value.
  * @return The calculated RPM value.
  */
-int calculate_throttle(int adc_value, int max_rpm);
+uint32_t calculate_throttle(uint32_t adc_value, uint32_t max_rpm);
+uint32_t update_rpm_based_on_brake_status(uint32_t brake_status);
 
 /**
  * @brief Reads ADC value from a simulated ADC buffer.
@@ -49,6 +51,6 @@ int read_adc_value(void);
  * @param throttle Pointer to the throttle value to update.
  * @param max_rpm The maximum RPM for the calculation.
  */
-void update_throttle(int brake, int *throttle, int max_rpm);
+// void update_throttle(int brake, int *throttle, int max_rpm);
 
 #endif // BRAKE_H
