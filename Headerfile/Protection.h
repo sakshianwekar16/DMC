@@ -9,5 +9,6 @@ uint32_t check_throttle(uint32_t rpm);
 uint32_t check_overvoltage(uint32_t voltage);
 uint32_t check_undervoltage(uint32_t voltage);
 uint32_t check_overCurrent(uint32_t current);
+uint32_t check_overTemperature(uint32_t temperature);
 
 #endif // HALL_PROTECTION_H

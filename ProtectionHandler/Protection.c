@@ -6,6 +6,7 @@
 #include "CurrentProtection.h"
 #include "sharedData.h"
 #include "initialconfig.h"
+#include"math.h"
 
 
 //FIXED_VALS_t fixedvalue;
@@ -33,4 +34,9 @@ uint32_t check_undervoltage(uint32_t voltage) {
 uint32_t check_overCurrent(uint32_t current) {
     // Check if the current exceeds the maximum allowed value
     return (current > Fixedvalue.CURRENT_THRESHOLD) ? 1 : 0; // Return 0 for fail, 1 for pass
+}
+
+uint32_t check_overTemperature(uint32_t temperature) {
+    // Check if the current exceeds the maximum allowed value
+    return (temperature > Fixedvalue.TEMPERATURE_THRESHOLD) ? 1 : 0; // Return 0 for fail, 1 for pass
 }

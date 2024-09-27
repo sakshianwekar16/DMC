@@ -60,3 +60,8 @@ float calculate_current(uint32_t adc_value) {
     // Return current as an unsigned int, assuming it's appropriate for your needs
     return Fixedvalue.current;
 }
+
+float measure_temperature(uint32_t adc_value){
+    Fixedvalue.temperature =((Fixedvalue.V25 - Fixedvalue.VSENSE* adc_value)/Fixedvalue.AVG_SLOPE + 25.0f);
+    return Fixedvalue.temperature;
+}
