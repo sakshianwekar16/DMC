@@ -45,7 +45,7 @@ extern ADC_DATA_t adcvalue;
 
 typedef struct {
 	ADC_DATA_t Current, Voltage, throttle,temperature;
-	uint8_t brakeRaw, brake;
+	uint8_t brakeRaw, TargetRPM;
 	uint8_t hallPosition;
 } MEASURED_t;
 extern MEASURED_t Measured;

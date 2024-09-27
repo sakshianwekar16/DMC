@@ -8,7 +8,7 @@
 #include"sharedData.h"
 #include"initialconfig.h"
 FIXED_VALS_t Fixedvalue;
-MEASURED_t Measured;
+//MEASURED_t Measured;
 
 void initialvalueassignment(void){
 	Fixedvalue.filtered_current = 0.0f;

@@ -6,7 +6,7 @@
 
 
 void update_ADC(uint32_t current,uint32_t voltage,uint32_t throttle,uint32_t temperature);
-void update_brakevalue(uint32_t brake);
+void update_brakevalue(uint8_t brake);
 void handle_hall(uint8_t hall);
 //uint32_t get_hall_position(void);
 //uint32_t get_brakestatus(void);

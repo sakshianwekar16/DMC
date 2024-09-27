@@ -50,11 +50,11 @@ void fast_loop(void) {
 }
 
 
-void update_brakevalue(uint32_t brake){
+void update_brakevalue(uint8_t brake){
     Measured.brakeRaw = brake;
 }
 // Slow loop function to check brake status and adjust RPM accordingly
 void slow_loop(void) {
-   Measured.brake = update_rpm_based_on_brake_status(Measured.brakeRaw); 
+   Measured.TargetRPM = update_rpm_based_on_brake_status(Measured.brakeRaw); 
       
 }
