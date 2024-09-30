@@ -32,7 +32,9 @@ typedef struct {
 	uint32_t target_rpm;
 	float V25;
 	float VSENSE;
-	float AVG_SLOPE;// Resistance R2
+	float AVG_SLOPE;
+	uint32_t istimerON;// Resistance R2
+//	int16_t phaseZero, phaseOne, phaseTwo, phaseThree, phaseFour, phaseFive;
 }FIXED_VALS_t;
 extern FIXED_VALS_t Fixedvalue;
 
@@ -45,10 +47,32 @@ extern ADC_DATA_t adcvalue;
 
 typedef struct {
 	ADC_DATA_t Current, Voltage, throttle,temperature;
-	uint8_t brakeRaw, TargetRPM;
+	uint32_t brakeRaw, TargetRPM,PhaseA,PhaseB,PhaseC;
 	uint8_t hallPosition;
 } MEASURED_t;
 extern MEASURED_t Measured;
+
+//typedef struct {
+//	// Speed PI
+//	int32_t speedPI_kp, speedPI_ki;
+//	uint8_t speedPI_sat;
+//	int16_t speedPI_error;
+//	int16_t speedPI_output;
+//	int32_t speedPI_integral;
+//	int32_t speedPI_counter;
+//	// Current PI
+//	int32_t currentPI_kp, currentPI_ki;
+//	uint8_t currentPI_sat;
+//	int16_t currentPI_error;
+//	int16_t currentPI_output;
+//	int32_t currentPI_integral;
+//	int32_t phaseAdv_angle;
+//	uint8_t flag_sixStep;
+//	uint32_t runCounter;
+//
+//	uint32_t timerDivCount;
+//} CONTROL_VALUE_t;
+//extern CONTROL_VALUE_t ControlVals;
 
 typedef struct {
 	union {
