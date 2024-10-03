@@ -9,8 +9,16 @@
 #include"initialconfig.h"
 FIXED_VALS_t Fixedvalue;
 //MEASURED_t Measured;
+void initialconfiguration(){
+	Fixedvalue.initialAssignmentsCompleted = 0;
+	initialvalueassignment();
+	Fixedvalue.initialAssignmentsCompleted = 1;
+
+}
+
 
 void initialvalueassignment(void){
+//	Fixedvalue.stateMachine_state = 1;
 	Fixedvalue.filtered_current = 0.0f;
 	Fixedvalue.current = 0.0f;
 	Fixedvalue.voltage = 0.0f;
@@ -33,5 +41,6 @@ void initialvalueassignment(void){
 	Fixedvalue.VSENSE = (3.3f/4095.0f);
     Fixedvalue.AVG_SLOPE = 0.0043f;
 	Fixedvalue.temperature = 0;
+//	Fixedvalue.stateMachine_state = SMS_INITIAL;
 
 }

@@ -9,7 +9,6 @@
 #define HEADERFILE_INITIALCONFIG_H_
 
 void initialvalueassignment(void);
-
-
+void initialconfiguration(void);
 
 #endif /* HEADERFILE_INITIALCONFIG_H_ */

@@ -18,7 +18,7 @@
 //};
 
 // Function to get PWM value for phase A based on its state
-int get_PHASEA_PWM_Value() {
+int32_t get_PHASEA_PWM_Value() {
 
     if (Measured.hallPosition == 1 || Measured.hallPosition == 3) {
 
@@ -31,11 +31,14 @@ int get_PHASEA_PWM_Value() {
         Measured.PhaseA = 0;
          return Measured.PhaseA;// Return RPM if phase A is high
     }
-    return -1;
+    else{
+    	Measured.PhaseA = -1;
+    	return Measured.PhaseA;
+    }
 }
 
 // Function to get PWM value for phase B
-int get_PHASEB_PWM_Value() {
+int32_t get_PHASEB_PWM_Value() {
 
     if (Measured.hallPosition == 2 || Measured.hallPosition  == 6) {
     	 Measured.PhaseB = Measured.TargetRPM;
@@ -45,11 +48,14 @@ int get_PHASEB_PWM_Value() {
     	Measured.PhaseB = 0;
     	return Measured.PhaseB;
     }
-    return -1;  // Return 0 if phase B is low
+    else {
+    	Measured.PhaseB = -1;
+    	return Measured.PhaseB;// Return 0 if phase B is low
+    }
 }
 
 // Function to get PWM value for phase C
-int get_PHASEC_PWM_Value() {
+int32_t get_PHASEC_PWM_Value() {
 
     if (Measured.hallPosition == 4 || Measured.hallPosition == 5) {
     	 Measured.PhaseC= Measured.TargetRPM;
@@ -59,9 +65,11 @@ int get_PHASEC_PWM_Value() {
        	 Measured.PhaseC = 0;
            return  Measured.PhaseC;// Return RPM if phase C is high
        }
-    return -1;  // Return 0 if phase C is low
+    else{
+    	Measured.PhaseC = -1;
+    	return Measured.PhaseC;// Return 0 if phase C is low
+    }
 }
-
 
 
 
