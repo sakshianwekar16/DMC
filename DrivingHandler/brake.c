@@ -21,3 +21,14 @@ uint32_t update_rpm_based_on_brake_status(uint32_t brake) {
     }
 }
 
+//void GetDirectionStatus(void){
+//	Fixedvalue.runDirectionFlag = FORWARD;
+//	return;
+//	uint8_t PinStatus = HAL_GPIO_ReadPin(F_R_GPIO_Port, F_R_Pin);
+//	if(PinStatus == 0){
+//		Fixedvalue.runDirectionFlag = REVERSE;
+//	}else{
+//		Fixedvalue.runDirectionFlag =  FORWARD;
+//	}
+//}
+

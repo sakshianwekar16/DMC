@@ -32,6 +32,7 @@
 uint32_t adc_to_rpm(uint32_t adc_value, uint32_t max_rpm, uint32_t adc_max_value, uint32_t throttle_start_adc);
 uint32_t calculate_throttle(uint32_t adc_value, uint32_t max_rpm);
 uint32_t update_rpm_based_on_brake_status(uint32_t brake_status);
+//void GetDirectionStatus(void);
 
 /**
  * @brief Reads ADC value from a simulated ADC buffer.

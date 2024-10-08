@@ -5,6 +5,8 @@
 #include "sharedData.h"
 #include "taskhandler.h"
 #include "motor.h"
+#include"SVM.h"
+#include"define.h"
 
 //uint16_t phaseStates[8][6] = {
 //    {0x0000, 1, 0x0000, 1, 0x0000, 1},  // Row 0
@@ -69,6 +71,72 @@ int32_t get_PHASEC_PWM_Value() {
     	Measured.PhaseC = -1;
     	return Measured.PhaseC;// Return 0 if phase C is low
     }
+}
+
+void phaseAdv_updateAngle(void){
+	if (Measured.motorSpeed.speed <= Fixedvalue.phaseAdv_baseSpeed){
+		float linearAdv = ((float)Measured.motorSpeed.speed / (float)Fixedvalue.phaseAdv_baseSpeed) * (float)Fixedvalue.phaseAdv_maxAngle;
+		Fixedvalue.phaseAdv.advanceAngle = (linearAdv > Fixedvalue.phaseAdv_maxAngle)? Fixedvalue.phaseAdv_maxAngle : linearAdv;
+	} else {
+		Fixedvalue.phaseAdv.advanceAngle = Fixedvalue.phaseAdv_maxAngle;
+	}
+}
+
+void motor_sineCommutation(void){
+
+//	if (ControlVals.targetRPM > 0){
+//		if (checkStall() != 0){
+////			Motor.faults.stall = 1;
+//			ProtectionVals.faults.stall = 1;
+//			Display.out.errorCode8.motor = 1;
+//		}
+//	}
+//
+//	TestVals.sineComCalled++;
+//	TestVals.comStarted++;
+//	controlLoop_run();
+
+	uint16_t period = Measured.motorPeriod.period;
+
+	if (period != 0){
+		Fixedvalue.phaseInc = ((uint32_t) PHASE_INC_CALC / (uint32_t) period);
+	} else {
+		// Add some handling for zero period here
+	}
+//	Fixedvalue.phaseIncAcc += Fixedvalue.phaseInc;
+//	if (Fixedvalue.phaseIncAcc >= 10923){
+//		Fixedvalue.phaseIncAcc = 10923;
+//	}
+//	else{
+		if (Fixedvalue.invertMotor == 1){
+			if(Fixedvalue.runDirectionFlag == REVERSE){
+				Fixedvalue.phase -= Fixedvalue.phaseInc;
+			}else{
+				Fixedvalue.phase += Fixedvalue.phaseInc;
+			}
+		} else {
+			if(Fixedvalue.runDirectionFlag == REVERSE){
+				Fixedvalue.phase += Fixedvalue.phaseInc;
+			}else{
+				Fixedvalue.phase -= Fixedvalue.phaseInc;
+			}
+		}
+
+//	}
+//	MotorRun.phaseIncAcc += MotorRun.phaseInc;
+//	if (MotorRun.phaseIncAcc < 10922x){
+//		MotorRun.phase -= MotorRun.phaseInc; //motovolt
+//		MotorRun.phase += MotorRun.phaseInc; //aurita
+//	} else {
+//		motorRun.phase = W
+//	}
+
+
+	Fixedvalue.volts = Measured.TargetRPM * 4;
+
+	SVMRun(Fixedvalue.volts, Fixedvalue.phase);
+//	TestVals.comCompleted++;
+//	SVMRun(controlVals.targetRPM, motorRun.phase);
 }
 
 

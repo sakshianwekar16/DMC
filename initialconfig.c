@@ -41,6 +41,13 @@ void initialvalueassignment(void){
 	Fixedvalue.VSENSE = (3.3f/4095.0f);
     Fixedvalue.AVG_SLOPE = 0.0043f;
 	Fixedvalue.temperature = 0;
+	Fixedvalue.hallmodifier = 7;
+	Fixedvalue.phaseoffsetDeg = 310U;
+	Fixedvalue.phaseOffset = (int32_t)(((float)Fixedvalue.phaseoffsetDeg/360.0)*65536.0);
+	Fixedvalue.reverseOffset = 65536 - Fixedvalue.phaseOffset;
+	Fixedvalue.forwardOffset = Fixedvalue.phaseOffset;
+	Fixedvalue.invertMotor = 1;
+//	Fixedvalue.phaseoffsetDeg = 310U;
 //	Fixedvalue.stateMachine_state = SMS_INITIAL;
 
 }

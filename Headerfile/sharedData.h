@@ -10,6 +10,10 @@
 #define HEADERFILE_SHAREDDATA_H_
 
 // Define a structure to hold current measurement parameters
+typedef enum{
+	FORWARD = 0U,
+	REVERSE = !FORWARD
+}DIR_t;
 
 typedef enum {
 	SMS_INITIAL = 1U,
@@ -49,6 +53,25 @@ typedef struct {
 	uint32_t islowersideON_C;
 	STATE_MACHINE_STATE_t stateMachine_state;
 	uint32_t initialAssignmentsCompleted;
+	uint16_t hallmodifier;
+	DIR_t runDirectionFlag;
+	uint16_t phase;
+	int32_t phaseoffsetDeg;
+	int32_t reverseOffset;
+	int32_t forwardOffset;
+	int32_t phaseOffset;
+	struct phaseAdv{
+		uint16_t advanceAngle;
+	} phaseAdv;
+	uint32_t test_timesOverflowed, times_tim3overflowed;
+	uint8_t hall_overflowedFlag;
+	uint16_t phaseInc;
+	int8_t invertMotor;
+	int16_t volts;
+	int32_t phaseAdv_baseSpeed;
+	int16_t phaseAdv_maxAngle;
+	unsigned int PDC1Latch, PDC2Latch, PDC3Latch;
+	uint16_t phaseIncAcc;
 }FIXED_VALS_t;
 extern FIXED_VALS_t Fixedvalue;
 
@@ -62,7 +85,23 @@ extern ADC_DATA_t adcvalue;
 typedef struct {
 	ADC_DATA_t Current, Voltage, throttle,temperature;
 	int32_t brakeRaw, TargetRPM,PhaseA,PhaseB,PhaseC;
-	uint8_t hallPosition;
+	uint8_t hallPosition,hallstate;
+	struct motorPeriod{
+		uint8_t inputCaptured;
+		uint32_t capturedValue;
+		uint32_t periodBeforeClamp;
+		uint32_t periodBeforeFilter;
+		uint32_t period;
+		uint8_t firstCap;
+		uint32_t lastInputCapturedTime;
+	} motorPeriod;
+
+	struct motorSpeed{
+		int8_t counter;
+		uint32_t acc;
+		uint32_t speedWithoutFilter;
+		int16_t speed;
+	} motorSpeed;
 } MEASURED_t;
 extern MEASURED_t Measured;
 

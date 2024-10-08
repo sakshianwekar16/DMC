@@ -29,6 +29,12 @@ uint32_t calculate_throttle(uint32_t adc_value, uint32_t max_rpm);
 float calculate_voltage(uint32_t adc_value);
 float calculate_current(uint32_t adc_value);
 float measure_temperature(uint32_t adc_value);
+void calculateMotorPeriod(uint32_t cap);
+void resetMotorPeriod(void);
+void filterMotorPeriod(void);
+void calculateMotorSpeed(uint32_t cap);
+void filterMotorSpeed(void);
+void getHallAngle(uint8_t hall);
 
 
 #endif // RPM_TESTS_H

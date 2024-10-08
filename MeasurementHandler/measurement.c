@@ -6,6 +6,7 @@
 #include "math.h"
 #include "sharedData.h"
 #include"initialconfig.h"
+#include "define.h"
 
 // const uint32_t R1 = 438.507;
 // const uint32_t R2 = 10;
@@ -64,4 +65,67 @@ float calculate_current(uint32_t adc_value) {
 float measure_temperature(uint32_t adc_value){
     Fixedvalue.temperature =((Fixedvalue.V25 - Fixedvalue.VSENSE* adc_value)/Fixedvalue.AVG_SLOPE + 25.0f);
     return Fixedvalue.temperature;
+}
+
+void calculateMotorPeriod(uint32_t cap){
+	if (cap >MAX_HALL_PERIOD + 100){
+		return;
+	}
+	else if (cap < 450)
+	{
+		return;
+	}
+	Measured.motorPeriod.periodBeforeClamp = cap;
+	if (cap < MIN_HALL_PERIOD)
+	{
+		cap = MIN_HALL_PERIOD;
+	}
+	else if (cap > MAX_HALL_PERIOD)
+	{
+		cap = MAX_HALL_PERIOD;
+	}
+	Measured.motorPeriod.periodBeforeFilter = cap;
+
+}
+
+void resetMotorPeriod(void){
+	Measured.motorPeriod.periodBeforeFilter = MAX_HALL_PERIOD;
+}
+
+void filterMotorPeriod(void){
+	Measured.motorPeriod.period = ((50 * Measured.motorPeriod.periodBeforeFilter) + (14 * Measured.motorPeriod.period)) >> 6;
+}
+
+// To get motor RPM
+void calculateMotorSpeed(uint32_t cap){
+	// I guess this could be optimized
+	Measured.motorSpeed.counter++;
+	Measured.motorSpeed.acc += cap;
+
+	// Filter for speed
+	if ((6 == Measured.hallstate) && Measured.motorSpeed.counter >= 6){		// should try some better logic
+		if (0 == Measured.motorSpeed.acc){
+			Measured.motorSpeed.acc = 1;
+		}
+		Measured.motorSpeed.speedWithoutFilter = (int16_t) (SPEED_MULTI / Measured.motorSpeed.acc);
+		Measured.motorSpeed.counter = 0;
+		Measured.motorSpeed.acc = 0;
+	}
+}
+
+void filterMotorSpeed(void){
+	Measured.motorSpeed.speed = ((30 * Measured.motorSpeed.speed) + (34 * Measured.motorSpeed.speedWithoutFilter)) >> 6;
+}
+
+const int PhaseValues[8] = {0, PHASE_FOUR, PHASE_TWO, PHASE_THREE, PHASE_ZERO, PHASE_FIVE, PHASE_ONE, 0};
+const int ReversePhaseValues[8] = {0, PHASE_ZERO, PHASE_FOUR, PHASE_FIVE, PHASE_TWO, PHASE_ONE, PHASE_THREE, 0};
+const int ForwardPhaseValues[8] = {0, PHASE_FOUR, PHASE_TWO, PHASE_THREE, PHASE_ZERO, PHASE_FIVE, PHASE_ONE, 0};
+void getHallAngle(uint8_t hall){
+//	MotorRun.phase =PhaseValues[hp]+ MotorRun.phaseOffset;
+	if(Fixedvalue.runDirectionFlag == REVERSE){
+		Fixedvalue.phase = ReversePhaseValues[hall] + Fixedvalue.reverseOffset;
+	} else{
+		Fixedvalue.phase = ForwardPhaseValues[hall] + Fixedvalue.forwardOffset;
+	}
+	Fixedvalue.phase += Fixedvalue.phaseAdv.advanceAngle;
 }
