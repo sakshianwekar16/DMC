@@ -7,6 +7,7 @@
 #include "motor.h"
 #include"SVM.h"
 #include"define.h"
+#include"controlLoop.h"
 
 //uint16_t phaseStates[8][6] = {
 //    {0x0000, 1, 0x0000, 1, 0x0000, 1},  // Row 0
@@ -74,11 +75,11 @@ int32_t get_PHASEC_PWM_Value() {
 }
 
 void phaseAdv_updateAngle(void){
-	if (Measured.motorSpeed.speed <= Fixedvalue.phaseAdv_baseSpeed){
-		float linearAdv = ((float)Measured.motorSpeed.speed / (float)Fixedvalue.phaseAdv_baseSpeed) * (float)Fixedvalue.phaseAdv_maxAngle;
-		Fixedvalue.phaseAdv.advanceAngle = (linearAdv > Fixedvalue.phaseAdv_maxAngle)? Fixedvalue.phaseAdv_maxAngle : linearAdv;
+	if (Measured.motorSpeed.speed <= MotorRun.phaseAdv_baseSpeed){
+		float linearAdv = ((float)Measured.motorSpeed.speed / (float)MotorRun.phaseAdv_baseSpeed) * (float)MotorRun.phaseAdv_maxAngle;
+		FixedValue.phaseAdv.advanceAngle = (linearAdv > MotorRun.phaseAdv_maxAngle)? MotorRun.phaseAdv_maxAngle : linearAdv;
 	} else {
-		Fixedvalue.phaseAdv.advanceAngle = Fixedvalue.phaseAdv_maxAngle;
+		FixedValue.phaseAdv.advanceAngle = MotorRun.phaseAdv_maxAngle;
 	}
 }
 
@@ -95,11 +96,11 @@ void motor_sineCommutation(void){
 //	TestVals.sineComCalled++;
 //	TestVals.comStarted++;
 //	controlLoop_run();
-
+	controlLoop_run();
 	uint16_t period = Measured.motorPeriod.period;
 
 	if (period != 0){
-		Fixedvalue.phaseInc = ((uint32_t) PHASE_INC_CALC / (uint32_t) period);
+		MotorRun.phaseInc = ((uint32_t) PHASE_INC_CALC / (uint32_t) period);
 	} else {
 		// Add some handling for zero period here
 	}
@@ -108,17 +109,17 @@ void motor_sineCommutation(void){
 //		Fixedvalue.phaseIncAcc = 10923;
 //	}
 //	else{
-		if (Fixedvalue.invertMotor == 1){
-			if(Fixedvalue.runDirectionFlag == REVERSE){
-				Fixedvalue.phase -= Fixedvalue.phaseInc;
+		if (MotorRun.invertMotor == 1){
+			if(MotorRun.runDirectionFlag == REVERSE){
+				MotorRun.phase -= MotorRun.phaseInc;
 			}else{
-				Fixedvalue.phase += Fixedvalue.phaseInc;
+				MotorRun.phase += MotorRun.phaseInc;
 			}
 		} else {
-			if(Fixedvalue.runDirectionFlag == REVERSE){
-				Fixedvalue.phase += Fixedvalue.phaseInc;
+			if(MotorRun.runDirectionFlag == REVERSE){
+				MotorRun.phase += MotorRun.phaseInc;
 			}else{
-				Fixedvalue.phase -= Fixedvalue.phaseInc;
+				MotorRun.phase -= MotorRun.phaseInc;
 			}
 		}
 
@@ -132,9 +133,9 @@ void motor_sineCommutation(void){
 //	}
 
 
-	Fixedvalue.volts = Measured.TargetRPM * 4;
+	MotorRun.volts = Measured.controlLoop.currentPI_output;
 
-	SVMRun(Fixedvalue.volts, Fixedvalue.phase);
+	SVMRun(MotorRun.volts, MotorRun.phase);
 //	TestVals.comCompleted++;
 //	SVMRun(controlVals.targetRPM, motorRun.phase);
 }

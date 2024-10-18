@@ -11,7 +11,7 @@
 #define PHASE_FIVE	((PHASE_FOUR + 65536/6) % 65536) //54613
 #define HALL_60 	(int16_t)(65536 / 6)
 
-#define MOTOR_RPM_TYRE 			260
+#define MOTOR_RPM_TYRE 			200
 #define GEAR_RATIO 				4.5
 
 #define SYSTEM_CLOCK 			64000000UL

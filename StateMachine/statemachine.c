@@ -8,6 +8,7 @@
 #include "initialconfig.h"
 #include "motor.h"
 #include "statemachine.h"
+#include"controlLoop.h"
 
 void stateMachine_handle(void){
 
@@ -15,9 +16,9 @@ void stateMachine_handle(void){
 		stateMachine_stepIntoError();
 	}
 
-	switch (Fixedvalue.stateMachine_state){
+	switch (FixedValue.stateMachine_state){
 	case SMS_INITIAL:
-		if (0 == Measured.throttle.calculated && 1 == Fixedvalue.initialAssignmentsCompleted){
+		if (0 == Measured.throttle.calculated && 1 == FixedValue.initialAssignmentsCompleted){
 			stateMachine_stepIntoIdle();
 		} else {
 			/* nothing to do */
@@ -28,7 +29,7 @@ void stateMachine_handle(void){
 		if (Measured.TargetRPM > 0){
 			stateMachine_stepIntoRun();
 		} else {
-			if(1 == Fixedvalue.istimerON_A || 1 == Fixedvalue.islowersideON_A ||1 == Fixedvalue.istimerON_B || 1 == Fixedvalue.islowersideON_B ||1 == Fixedvalue.istimerON_C || 1 == Fixedvalue.islowersideON_C ){
+			if(1 == FixedValue.istimerON_A || 1 == FixedValue.islowersideON_A ||1 == FixedValue.istimerON_B || 1 == FixedValue.islowersideON_B ||1 == FixedValue.istimerON_C || 1 == FixedValue.islowersideON_C ){
 				motordisable();
 			}
 		}
@@ -44,7 +45,7 @@ void stateMachine_handle(void){
 		break;
 
 	case SMS_ERROR:
-		if (1 == Fixedvalue.istimerON_A || 1 == Fixedvalue.islowersideON_A ||1 == Fixedvalue.istimerON_B || 1 == Fixedvalue.islowersideON_B ||1 == Fixedvalue.istimerON_C || 1 == Fixedvalue.islowersideON_C ){
+		if (1 == FixedValue.istimerON_A || 1 == FixedValue.islowersideON_A ||1 == FixedValue.istimerON_B || 1 == FixedValue.islowersideON_B ||1 == FixedValue.istimerON_C || 1 == FixedValue.islowersideON_C ){
 			motordisable();
 		}
 		if (0 == Protection.faults.value){
@@ -61,9 +62,9 @@ void stateMachine_handle(void){
 
 void stateMachine_stepIntoIdle(void){
 //	Fixedvalue.counter = 0;
-//	controlLoop_reset();
+	controlLoop_reset();
 	motordisable();
-	Fixedvalue.stateMachine_state = SMS_IDLE;
+	FixedValue.stateMachine_state = SMS_IDLE;
 }
 
 void stateMachine_stepIntoRun(void){
@@ -71,14 +72,14 @@ void stateMachine_stepIntoRun(void){
 //	Measured.motorPeriod.periodBeforeFilter = MAX_HALL_PERIOD;
 //	Measured.motorPeriod.period = MAX_HALL_PERIOD;
 //	Fixedvalue.counter = 0;
-//	controlLoop_reset();
+	controlLoop_reset();
 	motorenable();
 //	stall_reset();
-	Fixedvalue.stateMachine_state = SMS_RUN;
+	FixedValue.stateMachine_state = SMS_RUN;
 }
 
 void stateMachine_stepIntoError(void){
-	Fixedvalue.stateMachine_state = SMS_ERROR;
+	FixedValue.stateMachine_state = SMS_ERROR;
 }
 
 

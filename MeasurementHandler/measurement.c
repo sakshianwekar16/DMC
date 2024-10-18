@@ -15,6 +15,7 @@
 //float voltage =0;
 // Function to map ADC value to RPM with offset
 //FIXED_VALS_t fixedvalue;
+//MotorRun_t MotorRun;
 uint32_t adc_to_rpm(uint32_t adc_value, uint32_t max_rpm, uint32_t adc_max_value, uint32_t throttle_start_adc) {
     // Ensure the ADC value is within valid range
     if (adc_value < throttle_start_adc) {
@@ -35,36 +36,36 @@ uint32_t adc_to_rpm(uint32_t adc_value, uint32_t max_rpm, uint32_t adc_max_value
 uint32_t calculate_throttle(uint32_t adc_value,uint32_t max_rpm) {
     
     // Calculate RPM
-    return adc_to_rpm(adc_value,Fixedvalue.MAX_RPM, Fixedvalue.ADC_MAX_VALUE, Fixedvalue.THROTTLE_START_ADC);
+    return adc_to_rpm(adc_value,FixedValue.max_rpm, FixedValue.adc_max_value, FixedValue.throttle_start_adc);
 }
 
 // Function to calculate the input voltage based on ADC value
 float calculate_voltage(uint32_t adc_value) {
     // Calculate the output voltage from ADC value
-    float Vout = (adc_value * Fixedvalue.REFERENCE_VOLTAGE) / Fixedvalue.ADC_RESOLUTION;
+    float Vout = (adc_value * FixedValue.ref_voltage) / FixedValue.adcResolution;
 
     // Calculate the input voltage based on the voltage divider formula
-    Fixedvalue.voltage = (Vout * (Fixedvalue.R1 + Fixedvalue.R2)) / Fixedvalue.R2;
-    return Fixedvalue.voltage;
+    FixedValue.voltage = (Vout * (FixedValue.r1 + FixedValue.r2)) / FixedValue.r2;
+    return FixedValue.voltage;
 }
 
 
 float calculate_current(uint32_t adc_value) {
     // Apply a simple low-pass filter to smooth out the current measurement
-    float difference = adc_value - Fixedvalue.filtered_current;
-    float filtered_increment = difference / (1 << Fixedvalue.FILTER_SHIFT);
-    Fixedvalue.filtered_current += filtered_increment;
+    float difference = adc_value - FixedValue.filtered_current;
+    float filtered_increment = difference / (1 << FixedValue.filter_shift);
+    FixedValue.filtered_current += filtered_increment;
 
     // Calculate the actual current value in amperes
-    Fixedvalue.current = ((Fixedvalue.filtered_current * Fixedvalue.REFERENCE_VOLTAGE) /( Fixedvalue.ADC_RESOLUTION* Fixedvalue.SHUNT_RESISTOR * Fixedvalue.GAIN));
+    FixedValue.current = ((FixedValue.filtered_current * FixedValue.ref_voltage) /( FixedValue.adcResolution* FixedValue.shunt_resistor * FixedValue.gain));
 
     // Return current as an unsigned int, assuming it's appropriate for your needs
-    return Fixedvalue.current;
+    return FixedValue.current;
 }
 
 float measure_temperature(uint32_t adc_value){
-    Fixedvalue.temperature =((Fixedvalue.V25 - Fixedvalue.VSENSE* adc_value)/Fixedvalue.AVG_SLOPE + 25.0f);
-    return Fixedvalue.temperature;
+    FixedValue.temperature =((FixedValue.v25 - FixedValue.vsense* adc_value)/FixedValue.avg_slope + 25.0f);
+    return FixedValue.temperature;
 }
 
 void calculateMotorPeriod(uint32_t cap){
@@ -122,10 +123,10 @@ const int ReversePhaseValues[8] = {0, PHASE_ZERO, PHASE_FOUR, PHASE_FIVE, PHASE_
 const int ForwardPhaseValues[8] = {0, PHASE_FOUR, PHASE_TWO, PHASE_THREE, PHASE_ZERO, PHASE_FIVE, PHASE_ONE, 0};
 void getHallAngle(uint8_t hall){
 //	MotorRun.phase =PhaseValues[hp]+ MotorRun.phaseOffset;
-	if(Fixedvalue.runDirectionFlag == REVERSE){
-		Fixedvalue.phase = ReversePhaseValues[hall] + Fixedvalue.reverseOffset;
+	if(MotorRun.runDirectionFlag == REVERSE){
+		MotorRun.phase = ReversePhaseValues[hall] + MotorRun.reverseOffset;
 	} else{
-		Fixedvalue.phase = ForwardPhaseValues[hall] + Fixedvalue.forwardOffset;
+		MotorRun.phase = ForwardPhaseValues[hall] + MotorRun.forwardOffset;
 	}
-	Fixedvalue.phase += Fixedvalue.phaseAdv.advanceAngle;
+	MotorRun.phase += FixedValue.phaseAdv.advanceAngle;
 }

@@ -21,38 +21,69 @@ typedef enum {
 	SMS_RUN = 3U,
 	SMS_ERROR = 4U,
 } STATE_MACHINE_STATE_t;
+
 typedef struct {
-    float filtered_current; // Filtered current value
-    float current;
-    float voltage;// Raw current value
-    float SHUNT_RESISTOR;   // Shunt resistor value
-    float GAIN; 
-	float temperature;            // Gain factor
-    uint32_t ADC_RESOLUTION; // ADC resolution
-    float REFERENCE_VOLTAGE; // Reference voltage
-    float OVER_VOLTAGE_THRESHOLD; // Over voltage threshold
-    float UNDER_VOLTAGE_THRESHOLD; // Under voltage threshold
-    uint32_t CURRENT_THRESHOLD;
-	float TEMPERATURE_THRESHOLD; // Current threshold
-    uint32_t THROTTLE_START_ADC; // ADC value for throttle start
-    uint32_t MAX_RPM;        // Maximum RPM
-    uint32_t R1;             // Resistance R1
-    uint32_t R2;
-    uint32_t FILTER_SHIFT;
-    uint32_t ADC_MAX_VALUE;
-	uint32_t target_rpm;
-	float V25;
-	float VSENSE;
-	float AVG_SLOPE;
-	uint32_t istimerON_A;
-	uint32_t istimerON_B;
-	uint32_t istimerON_C;
+
+    // calculated values
+    float current, voltage, temperature;
+
+    //Throttle values
+    uint32_t adcResolution, throttle_start_adc, max_rpm, maxRPMLimit;
+
+    //Threshold Values
+    float ref_voltage, over_voltage_threshold, under_voltage_threshold, current_threshold, temperature_threshold; // Reference voltage
+
+    //current calculation
+    float filtered_current, shunt_resistor, gain;
+    uint32_t current_nominal, filter_shift;
+
+    //voltage calculation
+    uint32_t r1, r2;
+    uint32_t adc_max_value;
+
+    //temperature caculation
+	float v25;
+	float vsense;
+	float avg_slope;
+
+	//stateMachine
+	uint32_t istimerON_A, istimerON_B, istimerON_C; //high side timer
 	uint32_t counter;
-	uint32_t islowersideON_A;
-	uint32_t islowersideON_B;
-	uint32_t islowersideON_C;
+	uint32_t islowersideON_A, islowersideON_B, islowersideON_C;
 	STATE_MACHINE_STATE_t stateMachine_state;
 	uint32_t initialAssignmentsCompleted;
+
+
+	struct phaseAdv{
+		uint16_t advanceAngle;
+	} phaseAdv;
+
+	unsigned int PDC1Latch, PDC2Latch, PDC3Latch;
+
+	struct controlPI{
+		int32_t speedPI_kp_lowRPM, speedPI_kp_highRPM;
+		int32_t speedPI_ki_lowRPM, speedPI_ki_highRPM;
+		int32_t speedPI_lowRPMShelf, speedPI_highRPMShelf;
+		int32_t speedPI_schMul, speedPI_schMulSc;
+		uint32_t speedPI_maxCounter;
+		uint8_t speedPI_scale;
+		uint32_t speedPI_kp;
+		uint32_t speedPI_ki;
+		int32_t currentPI_kp, currentPI_ki;
+		uint8_t currentPI_scale;
+	}controlPI;
+
+}FIXED_VALS_t;
+extern FIXED_VALS_t FixedValue;
+
+typedef struct {
+	uint16_t raw;
+	uint16_t filtered;
+	int32_t calculated;
+} ADC_DATA_t;
+extern ADC_DATA_t AdcValue;
+
+typedef struct{
 	uint16_t hallmodifier;
 	DIR_t runDirectionFlag;
 	uint16_t phase;
@@ -60,9 +91,6 @@ typedef struct {
 	int32_t reverseOffset;
 	int32_t forwardOffset;
 	int32_t phaseOffset;
-	struct phaseAdv{
-		uint16_t advanceAngle;
-	} phaseAdv;
 	uint32_t test_timesOverflowed, times_tim3overflowed;
 	uint8_t hall_overflowedFlag;
 	uint16_t phaseInc;
@@ -70,17 +98,23 @@ typedef struct {
 	int16_t volts;
 	int32_t phaseAdv_baseSpeed;
 	int16_t phaseAdv_maxAngle;
-	unsigned int PDC1Latch, PDC2Latch, PDC3Latch;
 	uint16_t phaseIncAcc;
-}FIXED_VALS_t;
-extern FIXED_VALS_t Fixedvalue;
+}MotorRun_t;
+extern MotorRun_t MotorRun;
 
 typedef struct {
-	uint16_t raw;
-	uint16_t filtered;
-	int32_t calculated;
-} ADC_DATA_t;
-extern ADC_DATA_t adcvalue;
+	uint32_t lastTick, diff;
+	uint32_t addAmount;
+	uint16_t maxDiff, minDiff, timeout;
+	uint8_t scale;
+	int16_t value;
+	int16_t targetRPM;
+	int16_t maxRPM;
+	uint8_t level, prevLevel;
+	uint16_t mode0RPM, mode1RPM, mode2RPM, mode3RPM, mode4RPM, mode5RPM;
+	uint32_t derampFactor;
+} PEDAL_ASSIST_t;
+extern PEDAL_ASSIST_t PedalAssist;
 
 typedef struct {
 	ADC_DATA_t Current, Voltage, throttle,temperature;
@@ -102,33 +136,93 @@ typedef struct {
 		uint32_t speedWithoutFilter;
 		int16_t speed;
 	} motorSpeed;
+
+	struct controlLoop{
+		int32_t speedPI_kp, speedPI_ki;
+		uint8_t speedPI_sat;
+		int16_t speedPI_error;
+		int16_t speedPI_output;
+		int32_t speedPI_integral;
+		int32_t speedPI_counter;
+		// Current PI
+		int32_t currentPI_kp, currentPI_ki;
+		uint8_t currentPI_sat;
+		int16_t currentPI_error;
+		int16_t currentPI_output;
+		int32_t currentPI_integral;
+	}controlLoop;
+	struct singleWireSpeed{
+		uint32_t rawTickDiff;
+		uint32_t lastTick;
+		uint32_t tickDiff;
+		uint32_t tk;// uint32_t should not be required
+	} singleWireSpeed;
 } MEASURED_t;
 extern MEASURED_t Measured;
 
 
-//extern STATE_MACHINE_STATE_t stateMachine;
 
-//typedef struct {
-//	// Speed PI
-//	int32_t speedPI_kp, speedPI_ki;
-//	uint8_t speedPI_sat;
-//	int16_t speedPI_error;
-//	int16_t speedPI_output;
-//	int32_t speedPI_integral;
-//	int32_t speedPI_counter;
-//	// Current PI
-//	int32_t currentPI_kp, currentPI_ki;
-//	uint8_t currentPI_sat;
-//	int16_t currentPI_error;
-//	int16_t currentPI_output;
-//	int32_t currentPI_integral;
-//	int32_t phaseAdv_angle;
-//	uint8_t flag_sixStep;
-//	uint32_t runCounter;
-//
-//	uint32_t timerDivCount;
-//} CONTROL_VALUE_t;
-//extern CONTROL_VALUE_t ControlVals;
+typedef struct {
+	struct in{
+//		uint8_t rxBuf[DISPLAY_RX_SIZE];
+//		uint8_t rawData[DISPLAY_RX_SIZE];
+		struct parsed{
+			uint8_t pedalAssist;
+			union{
+				struct{
+					uint8_t cruiseSignal: 1;
+					uint8_t manualCruise : 1;
+					uint8_t : 3;
+					uint8_t light : 1;
+					uint8_t : 2;
+				};
+				uint8_t value;
+			} multiParam;
+		} parsed;
+	} in;
+	struct out {
+		union {
+			struct {
+				uint8_t :2;
+				uint8_t cruise :1;
+				uint8_t voltage :1;
+				uint8_t ECUError :1;
+				uint8_t throttle :1;
+				uint8_t motor :1;
+				uint8_t walkAssist :1;
+			};
+			uint8_t code;
+		} errorCode8;
+		uint8_t brake, current;
+	} out;
+	uint32_t lastReceptionTime, lastReconnectionAttempt;
+} DISPLAY_VAL_t;
+extern DISPLAY_VAL_t Display;
+
+typedef struct {
+	int16_t lastThrottle;
+	int16_t throttleMoveThreshold;
+	int16_t delta;
+	int16_t throttleBaseValue;
+	uint32_t throttleBaseValueSetTime;
+	int16_t timeToSetAutoCruise;
+	int16_t cruiseSetBaseValue;
+	uint32_t setTime;
+	uint32_t setInterval;
+	uint32_t t;
+	uint32_t speed;
+	union{
+		struct{
+			uint8_t isCruising : 1;
+			uint8_t isInManualCruise : 1;
+			uint8_t isInAutoCruise : 1;
+			uint8_t displayManualCriuseLastState : 1;
+			uint8_t : 4;
+		};
+		uint8_t value;
+	} flags;
+} CRUISE_MODE_t;
+extern CRUISE_MODE_t CruiseMode;
 
 typedef struct {
 	union {
