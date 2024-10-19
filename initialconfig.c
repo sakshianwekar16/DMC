@@ -29,8 +29,8 @@ void initialvalueassignment(void){
 
 	//voltage calculation
 	FixedValue.voltage = 0.0f;
-	FixedValue.r1 = 17380;
-	FixedValue.r2 = 1000;
+	FixedValue.r1 = 20000;
+	FixedValue.r2 = 12000;
 	FixedValue.adcResolution = 4096;
 	FixedValue.ref_voltage = 3.3f;
 

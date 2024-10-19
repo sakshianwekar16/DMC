@@ -8,7 +8,7 @@
 #include"SVM.h"
 #include"define.h"
 #include"controlLoop.h"
-
+MotorRun_t MotorRun;
 //uint16_t phaseStates[8][6] = {
 //    {0x0000, 1, 0x0000, 1, 0x0000, 1},  // Row 0
 //    {0xFFFF, 1, 0x0000, 0, 0x0000, 1},  // Row 1 (AH-BL)
