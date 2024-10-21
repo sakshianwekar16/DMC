@@ -24,14 +24,12 @@ typedef enum {
 
 typedef struct {
 
-    // calculated values
-    float current, voltage, temperature;
 
     //Throttle values
     uint32_t adcResolution, throttle_start_adc, max_rpm, maxRPMLimit;
 
     //Threshold Values
-    float ref_voltage, over_voltage_threshold, under_voltage_threshold, current_threshold, temperature_threshold; // Reference voltage
+    uint32_t ref_voltage, over_voltage_threshold, under_voltage_threshold, current_threshold, temperature_threshold; // Reference voltage
 
     //current calculation
     float filtered_current, shunt_resistor, gain;
@@ -50,15 +48,13 @@ typedef struct {
 	uint32_t istimerON_A, istimerON_B, istimerON_C; //high side timer
 	uint32_t counter;
 	uint32_t islowersideON_A, islowersideON_B, islowersideON_C;
-	STATE_MACHINE_STATE_t stateMachine_state;
-	uint32_t initialAssignmentsCompleted;
 
-
-	struct phaseAdv{
-		uint16_t advanceAngle;
-	} phaseAdv;
-
-	unsigned int PDC1Latch, PDC2Latch, PDC3Latch;
+	//motor parameter
+	int32_t phaseAdv_baseSpeed;
+	int16_t phaseAdv_maxAngle;
+	int32_t phaseoffsetDeg;
+	int8_t invertMotor;
+	int8_t hallmodifier;
 
 	struct controlPI{
 		int32_t speedPI_kp_lowRPM, speedPI_kp_highRPM;
@@ -84,20 +80,19 @@ typedef struct {
 extern ADC_DATA_t AdcValue;
 
 typedef struct{
-	uint16_t hallmodifier;
+	uint8_t hallstate;
 	DIR_t runDirectionFlag;
 	uint16_t phase;
-	int32_t phaseoffsetDeg;
 	int32_t reverseOffset;
 	int32_t forwardOffset;
 	int32_t phaseOffset;
 	uint32_t test_timesOverflowed, times_tim3overflowed;
 	uint8_t hall_overflowedFlag;
+	struct phaseAdv{
+		uint16_t advanceAngle;
+	} phaseAdv;
 	uint16_t phaseInc;
-	int8_t invertMotor;
 	int16_t volts;
-	int32_t phaseAdv_baseSpeed;
-	int16_t phaseAdv_maxAngle;
 	uint16_t phaseIncAcc;
 }MotorRun_t;
 extern MotorRun_t MotorRun;
@@ -116,10 +111,29 @@ typedef struct {
 } PEDAL_ASSIST_t;
 extern PEDAL_ASSIST_t PedalAssist;
 
+typedef struct controlLoop{
+	int32_t speedPI_kp, speedPI_ki;
+	uint8_t speedPI_sat;
+	int16_t speedPI_error;
+	int16_t speedPI_output;
+	int32_t speedPI_integral;
+	int32_t speedPI_counter;
+	// Current PI
+	int32_t currentPI_kp, currentPI_ki;
+	uint8_t currentPI_sat;
+	int16_t currentPI_error;
+	int16_t currentPI_output;
+	int32_t currentPI_integral;
+
+	STATE_MACHINE_STATE_t stateMachine_state;
+	uint32_t initialAssignmentsCompleted;
+}controlLoop_t;
+extern controlLoop_t ControlVals;
+
 typedef struct {
 	ADC_DATA_t Current, Voltage, throttle,temperature;
 	int32_t brakeRaw, TargetRPM,PhaseA,PhaseB,PhaseC;
-	uint8_t hallPosition,hallstate;
+	uint8_t hallPosition;
 	struct motorPeriod{
 		uint8_t inputCaptured;
 		uint32_t capturedValue;
@@ -137,20 +151,6 @@ typedef struct {
 		int16_t speed;
 	} motorSpeed;
 
-	struct controlLoop{
-		int32_t speedPI_kp, speedPI_ki;
-		uint8_t speedPI_sat;
-		int16_t speedPI_error;
-		int16_t speedPI_output;
-		int32_t speedPI_integral;
-		int32_t speedPI_counter;
-		// Current PI
-		int32_t currentPI_kp, currentPI_ki;
-		uint8_t currentPI_sat;
-		int16_t currentPI_error;
-		int16_t currentPI_output;
-		int32_t currentPI_integral;
-	}controlLoop;
 	struct singleWireSpeed{
 		uint32_t rawTickDiff;
 		uint32_t lastTick;

@@ -13,7 +13,7 @@
  * @param adc_value The ADC value to convert.
  * @return The calculated input voltage.
  */
- float calculate_voltage(uint32_t adc_value);
+ uint32_t calculate_voltage(uint32_t adc_value);
 
 /**
  * @brief Checks if the input voltage is above the overvoltage threshold.

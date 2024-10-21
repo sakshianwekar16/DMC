@@ -29,40 +29,40 @@ void updateSpeedPIValues(void){
 void speedPI(){
 	Measured.controlLoop.speedPI_error = (int32_t)Measured.TargetRPM - Measured.motorSpeed.speed;
 //	controlVals.speedPI_error = (int32_t)controlVals.targetRPM - 0;
-	Measured.controlLoop.speedPI_integral += (int32_t)Measured.controlLoop.speedPI_error * (int32_t)Measured.controlLoop.speedPI_ki * (int32_t)Measured.controlLoop.speedPI_sat;
-	int16_t controlSignal = (int32_t)((Measured.controlLoop.speedPI_error * Measured.controlLoop.speedPI_kp) + Measured.controlLoop.speedPI_integral) >> FixedValue.controlPI.speedPI_scale;
+	ControlVals.speedPI_integral += (int32_t)ControlVals.speedPI_error * (int32_t)ControlVals.speedPI_ki * (int32_t)ControlVals.speedPI_sat;
+	int16_t controlSignal = (int32_t)((ControlVals.speedPI_error * ControlVals.speedPI_kp) + ControlVals.speedPI_integral) >> FixedValue.controlPI.speedPI_scale;
 
 	if (controlSignal > (int16_t)FixedValue.current_nominal){
-		Measured.controlLoop.speedPI_output = (int16_t)FixedValue.current_nominal;
-		Measured.controlLoop.speedPI_sat = 0U;
+		ControlVals.speedPI_output = (int16_t)FixedValue.current_nominal;
+		ControlVals.speedPI_sat = 0U;
 	} else if (controlSignal < -(int16_t)FixedValue.current_nominal){
-		Measured.controlLoop.speedPI_output = -(int16_t)FixedValue.current_nominal;
-		Measured.controlLoop.speedPI_sat = 0U;
+		ControlVals.speedPI_output = -(int16_t)FixedValue.current_nominal;
+		ControlVals.speedPI_sat = 0U;
 	} else {
-		Measured.controlLoop.speedPI_output = controlSignal;
-		Measured.controlLoop.speedPI_sat = 1U;
+		ControlVals.speedPI_output = controlSignal;
+		ControlVals.speedPI_sat = 1U;
 	}
 }
 
 // To get the "volts" value
 void currentPI(){
 	if (0 == Measured.TargetRPM){
-		Measured.controlLoop.currentPI_integral = 0;
+		ControlVals.currentPI_integral = 0;
 	}
-	Measured.controlLoop.currentPI_error = (int32_t)Measured.controlLoop.speedPI_output - (int32_t)Measured.Current.calculated;
+	ControlVals.currentPI_error = (int32_t)ControlVals.speedPI_output - (int32_t)Measured.Current.calculated;
 //	controlVals.currentPI_error = (int32_t)controlVals.speedPI_output - (int32_t)0;		// bypassing current
-	Measured.controlLoop.currentPI_integral += (int32_t)Measured.controlLoop.currentPI_error * (int32_t)FixedValue.controlPI.currentPI_ki * (int32_t)Measured.controlLoop.currentPI_sat;
-	int32_t controlSignal = (int32_t)((Measured.controlLoop.currentPI_error * FixedValue.controlPI.currentPI_kp) + Measured.controlLoop.currentPI_integral) >> FixedValue.controlPI.currentPI_scale;
+	ControlVals.currentPI_integral += (int32_t)ControlVals.currentPI_error * (int32_t)FixedValue.controlPI.currentPI_ki * (int32_t)ControlVals.currentPI_sat;
+	int32_t controlSignal = (int32_t)((ControlVals.currentPI_error * FixedValue.controlPI.currentPI_kp) + ControlVals.currentPI_integral) >> FixedValue.controlPI.currentPI_scale;
 
 	if (controlSignal > 32767){				// this 32767 value should be verified asap
-		Measured.controlLoop.currentPI_output = 32767;
-		Measured.controlLoop.currentPI_sat = 0U;
+		ControlVals.currentPI_output = 32767;
+		ControlVals.currentPI_sat = 0U;
 	} else if (controlSignal < 0){
-		Measured.controlLoop.currentPI_output = 0;
-		Measured.controlLoop.currentPI_sat = 0U;
+		ControlVals.currentPI_output = 0;
+		ControlVals.currentPI_sat = 0U;
 	} else {
-		Measured.controlLoop.currentPI_output = controlSignal;
-		Measured.controlLoop.currentPI_sat = 1U;
+		ControlVals.currentPI_output = controlSignal;
+		ControlVals.currentPI_sat = 1U;
 	}
 
 }
@@ -71,20 +71,20 @@ void currentPI(){
 // Handle the control loop in one function.
 void controlLoop_run(){
 	// To run speedPI slower than currentPI
-	Measured.controlLoop.speedPI_counter++;
-	if (Measured.controlLoop.speedPI_counter >= FixedValue.controlPI.speedPI_maxCounter){
+	ControlVals.speedPI_counter++;
+	if (ControlVals.speedPI_counter >= FixedValue.controlPI.speedPI_maxCounter){
 		speedPI();
-		Measured.controlLoop.speedPI_counter = 0;
+		ControlVals.speedPI_counter = 0;
 	}
 	currentPI();
 }
 
 // Reset the control loop
 void controlLoop_reset(){
-	Measured.controlLoop.speedPI_output = 0;
-	Measured.controlLoop.speedPI_integral = 0;
-	Measured.controlLoop.currentPI_output = 0;
-	Measured.controlLoop.currentPI_integral = 0;
-	Measured.controlLoop.speedPI_counter = 0;
+	ControlVals.speedPI_output = 0;
+	ControlVals.speedPI_integral = 0;
+	ControlVals.currentPI_output = 0;
+	ControlVals.currentPI_integral = 0;
+	ControlVals.speedPI_counter = 0;
 }
 

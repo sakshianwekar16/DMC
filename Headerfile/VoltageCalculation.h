@@ -16,6 +16,6 @@
  * @param adc_value The ADC value to convert to voltage.
  * @return The calculated input voltage.
  */
-float calculate_voltage(uint32_t adc_value);
+uint32_t calculate_voltage(uint32_t adc_value);
 
 #endif // VOLTAGE_CALCULATION_H

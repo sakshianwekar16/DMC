@@ -8,12 +8,6 @@
 #include"initialconfig.h"
 #include "define.h"
 
-// const uint32_t R1 = 438.507;
-// const uint32_t R2 = 10;
-//float filtered_current = 0;  // Filtered current valu
-//float current = 0.0;
-//float voltage =0;
-// Function to map ADC value to RPM with offset
 //FIXED_VALS_t fixedvalue;
 //MotorRun_t MotorRun;
 uint32_t adc_to_rpm(uint32_t adc_value, uint32_t max_rpm, uint32_t adc_max_value, uint32_t throttle_start_adc) {
@@ -40,32 +34,32 @@ uint32_t calculate_throttle(uint32_t adc_value,uint32_t max_rpm) {
 }
 
 // Function to calculate the input voltage based on ADC value
-float calculate_voltage(uint32_t adc_value) {
+uint32_t calculate_voltage(uint32_t adc_value) {
     // Calculate the output voltage from ADC value
-    float Vout = (adc_value * FixedValue.ref_voltage) / FixedValue.adcResolution;
+    uint32_t Vout = (adc_value * FixedValue.ref_voltage) / FixedValue.adcResolution;
 
     // Calculate the input voltage based on the voltage divider formula
-    FixedValue.voltage = (Vout * (FixedValue.r1 + FixedValue.r2)) / FixedValue.r2;
-    return FixedValue.voltage;
+    voltage = (Vout * (FixedValue.r1 + FixedValue.r2)) / FixedValue.r2;
+    return voltage;
 }
 
 
-float calculate_current(uint32_t adc_value) {
+uint32_t calculate_current(uint32_t adc_value) {
     // Apply a simple low-pass filter to smooth out the current measurement
-    float difference = adc_value - FixedValue.filtered_current;
-    float filtered_increment = difference / (1 << FixedValue.filter_shift);
+    uint32_t difference = adc_value - FixedValue.filtered_current;
+    uint32_t filtered_increment = difference / (1 << FixedValue.filter_shift);
     FixedValue.filtered_current += filtered_increment;
 
     // Calculate the actual current value in amperes
-    FixedValue.current = ((FixedValue.filtered_current * FixedValue.ref_voltage) /( FixedValue.adcResolution* FixedValue.shunt_resistor * FixedValue.gain));
+    current = ((FixedValue.filtered_current * FixedValue.ref_voltage) /( FixedValue.adcResolution* FixedValue.shunt_resistor * FixedValue.gain));
 
     // Return current as an unsigned int, assuming it's appropriate for your needs
-    return FixedValue.current;
+    return current;
 }
 
-float measure_temperature(uint32_t adc_value){
-    FixedValue.temperature =((FixedValue.v25 - FixedValue.vsense* adc_value)/FixedValue.avg_slope + 25.0f);
-    return FixedValue.temperature;
+uint32_t measure_temperature(uint32_t adc_value){
+    temperature =((FixedValue.v25 - FixedValue.vsense* adc_value)/FixedValue.avg_slope + 25.0f);
+    return temperature;
 }
 
 void calculateMotorPeriod(uint32_t cap){
@@ -104,7 +98,7 @@ void calculateMotorSpeed(uint32_t cap){
 	Measured.motorSpeed.acc += cap;
 
 	// Filter for speed
-	if ((6 == Measured.hallstate) && Measured.motorSpeed.counter >= 6){		// should try some better logic
+	if ((6 == MotorRun.hallstate) && Measured.motorSpeed.counter >= 6){		// should try some better logic
 		if (0 == Measured.motorSpeed.acc){
 			Measured.motorSpeed.acc = 1;
 		}

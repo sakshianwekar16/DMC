@@ -18,7 +18,7 @@ void stateMachine_handle(void){
 
 	switch (FixedValue.stateMachine_state){
 	case SMS_INITIAL:
-		if (0 == Measured.throttle.calculated && 1 == FixedValue.initialAssignmentsCompleted){
+		if (0 == Measured.throttle.calculated && 1 == ControlVals.initialAssignmentsCompleted){
 			stateMachine_stepIntoIdle();
 		} else {
 			/* nothing to do */

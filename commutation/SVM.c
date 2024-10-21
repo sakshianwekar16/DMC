@@ -105,40 +105,42 @@ void SVMRun(int16_t volts, uint16_t angle) {
 
 void updatePWM(int angle, unsigned int half_t0, unsigned int t1,
 		unsigned int t2) {
-//	unsigned int PDC1Latch, PDC2Latch, PDC3Latch;
+	unsigned int PDC1Latch, PDC2Latch, PDC3Latch;
 	if (angle < 0x8000) {
 		if (angle < 0x5555) {
 			if (angle < 0x2aaa) {
-				FixedValue.PDC1Latch = t1 + t2 + half_t0;
-				FixedValue.PDC2Latch = t2 + half_t0;
-				FixedValue.PDC3Latch = half_t0;
+				PDC1Latch = t1 + t2 + half_t0;
+				PDC2Latch = t2 + half_t0;
+				PDC3Latch = half_t0;
 			} else {
-				FixedValue.PDC1Latch = t1 + half_t0;
-				FixedValue.PDC2Latch = t1 + t2 + half_t0;
-				FixedValue.PDC3Latch = half_t0;
+				PDC1Latch = t1 + half_t0;
+				PDC2Latch = t1 + t2 + half_t0;
+				PDC3Latch = half_t0;
 			}
 		} else {
-			FixedValue.PDC1Latch = half_t0;
-			FixedValue.PDC2Latch = t1 + t2 + half_t0;
-			FixedValue.PDC3Latch = t2 + half_t0;
+			PDC1Latch = half_t0;
+			PDC2Latch = t1 + t2 + half_t0;
+			PDC3Latch = t2 + half_t0;
 		}
 	} else {
 		if (angle < 0xd555) {
 			if (angle < 0xaaaa) {
-				FixedValue.PDC1Latch = half_t0;
-				FixedValue.PDC2Latch = t1 + half_t0;
-				FixedValue.PDC3Latch = t1 + t2 + half_t0;
+				PDC1Latch = half_t0;
+				PDC2Latch = t1 + half_t0;
+				PDC3Latch = t1 + t2 + half_t0;
 			} else {
-				FixedValue.PDC1Latch = t2 + half_t0;
-				FixedValue.PDC2Latch = half_t0;
-				FixedValue.PDC3Latch = t1 + t2 + half_t0;
+				PDC1Latch = t2 + half_t0;
+				PDC2Latch = half_t0;
+				PDC3Latch = t1 + t2 + half_t0;
 			}
 		} else {
-			FixedValue.PDC1Latch = t1 + t2 + half_t0;
-			FixedValue.PDC2Latch = half_t0;
-			FixedValue.PDC3Latch = t1 + half_t0;
+			PDC1Latch = t1 + t2 + half_t0;
+			PDC2Latch = half_t0;
+			PDC3Latch = t1 + half_t0;
 		}
 	}
+
+update_PDCValues(PDC1Latch,PDC2Latch,PDC3Latch;
 //	 Dutycycle1 =PDC1Latch;
 //	 Dutycycle2 =PDC2Latch;
 //	 Dutycycle3 =PDC3Latch;
