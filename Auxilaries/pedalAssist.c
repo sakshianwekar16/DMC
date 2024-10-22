@@ -84,7 +84,7 @@ void pedal_setLimits() {
 	}
 
 	if (PedalAssist.prevLevel != PedalAssist.level) {
-		cruise_stop();
+//		cruise_stop();
 		PedalAssist.prevLevel = PedalAssist.level;
 	}
 }

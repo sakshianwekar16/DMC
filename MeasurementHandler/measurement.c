@@ -39,7 +39,7 @@ uint32_t calculate_voltage(uint32_t adc_value) {
     uint32_t Vout = (adc_value * FixedValue.ref_voltage) / FixedValue.adcResolution;
 
     // Calculate the input voltage based on the voltage divider formula
-    voltage = (Vout * (FixedValue.r1 + FixedValue.r2)) / FixedValue.r2;
+    uint32_t voltage = (Vout * (FixedValue.r1 + FixedValue.r2)) / FixedValue.r2;
     return voltage;
 }
 
@@ -51,14 +51,14 @@ uint32_t calculate_current(uint32_t adc_value) {
     FixedValue.filtered_current += filtered_increment;
 
     // Calculate the actual current value in amperes
-    current = ((FixedValue.filtered_current * FixedValue.ref_voltage) /( FixedValue.adcResolution* FixedValue.shunt_resistor * FixedValue.gain));
+    uint32_t current = ((FixedValue.filtered_current * FixedValue.ref_voltage) /( FixedValue.adcResolution* FixedValue.shunt_resistor * FixedValue.gain));
 
     // Return current as an unsigned int, assuming it's appropriate for your needs
     return current;
 }
 
 uint32_t measure_temperature(uint32_t adc_value){
-    temperature =((FixedValue.v25 - FixedValue.vsense* adc_value)/FixedValue.avg_slope + 25.0f);
+    uint32_t temperature =((FixedValue.v25 - FixedValue.vsense* adc_value)/FixedValue.avg_slope + 25.0f);
     return temperature;
 }
 
@@ -122,5 +122,5 @@ void getHallAngle(uint8_t hall){
 	} else{
 		MotorRun.phase = ForwardPhaseValues[hall] + MotorRun.forwardOffset;
 	}
-	MotorRun.phase += FixedValue.phaseAdv.advanceAngle;
+	MotorRun.phase += MotorRun.phaseAdv.advanceAngle;
 }

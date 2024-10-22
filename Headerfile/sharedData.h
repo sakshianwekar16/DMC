@@ -94,6 +94,10 @@ typedef struct{
 	uint16_t phaseInc;
 	int16_t volts;
 	uint16_t phaseIncAcc;
+	uint16_t PDC1Latch;
+	uint16_t PDC2Latch;
+	uint16_t PDC3Latch;
+	uint16_t counter;
 }MotorRun_t;
 extern MotorRun_t MotorRun;
 

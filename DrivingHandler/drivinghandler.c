@@ -43,11 +43,12 @@ void handleDrivingInputSource(void){
 	if (Measured.brakeRaw == 0){
 		Display.out.brake = 0x20;
 		Measured.TargetRPM = 0;
-		cruise_stop();
+//		cruise_stop();
 	} else {
 		Display.out.brake = 0x00;
 		uint32_t th = Measured.throttle.calculated;
-		uint32_t cs = CruiseMode.speed;
+//		uint32_t cs = CruiseMode.speed;
+		uint32_t cs = 0;
 		uint32_t pas = PedalAssist.targetRPM;
 		uint32_t trpm = 0;
 
@@ -55,7 +56,7 @@ void handleDrivingInputSource(void){
 		if (pas > th && pas > cs){
 			// Running on pedal assist
 			trpm = pas;
-			cruise_stop();
+//			cruise_stop();
 		} else {
 			// running on throttle or cruise mode
 			if (th > cs){

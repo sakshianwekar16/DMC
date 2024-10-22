@@ -104,11 +104,11 @@ void motor_sineCommutation(void){
 	} else {
 		// Add some handling for zero period here
 	}
-//	Fixedvalue.phaseIncAcc += Fixedvalue.phaseInc;
-//	if (Fixedvalue.phaseIncAcc >= 10923){
-//		Fixedvalue.phaseIncAcc = 10923;
-//	}
-//	else{
+	MotorRun.phaseIncAcc += MotorRun.phaseInc;
+	if (MotorRun.phaseIncAcc >= 10923){
+		MotorRun.phaseIncAcc = 10923;
+	}
+	else{
 		if (FixedValue.invertMotor == 1){
 			if(MotorRun.runDirectionFlag == REVERSE){
 				MotorRun.phase -= MotorRun.phaseInc;
@@ -123,7 +123,7 @@ void motor_sineCommutation(void){
 			}
 		}
 
-//	}
+	}
 //	MotorRun.phaseIncAcc += MotorRun.phaseInc;
 //	if (MotorRun.phaseIncAcc < 10922x){
 //		MotorRun.phase -= MotorRun.phaseInc; //motovolt

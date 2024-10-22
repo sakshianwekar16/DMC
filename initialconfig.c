@@ -35,8 +35,8 @@ void initialvalueassignment(void){
 	FixedValue.filter_shift =6;
 
 	//voltage calculation
-	FixedValue.r1 = 20000;
-	FixedValue.r2 = 12000;
+	FixedValue.r1 = 2000000;
+	FixedValue.r2 = 120000;
 	FixedValue.adcResolution = 4096;
 	FixedValue.ref_voltage = 330;
 

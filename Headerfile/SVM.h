@@ -9,6 +9,7 @@
 #define HEADERFILE_SVM_H_
 
 void SVMRun(int16_t volts, uint16_t angle);
+void SVMX(int16_t volts, uint16_t angle);
 void updatePWM(int angle,unsigned int half_t0,unsigned int t1,unsigned int t2 );
 //unsigned int PDC1Latch, PDC2Latch, PDC3Latch;
 

@@ -16,7 +16,7 @@ void stateMachine_handle(void){
 		stateMachine_stepIntoError();
 	}
 
-	switch (FixedValue.stateMachine_state){
+	switch (ControlVals.stateMachine_state){
 	case SMS_INITIAL:
 		if (0 == Measured.throttle.calculated && 1 == ControlVals.initialAssignmentsCompleted){
 			stateMachine_stepIntoIdle();
@@ -64,7 +64,7 @@ void stateMachine_stepIntoIdle(void){
 //	Fixedvalue.counter = 0;
 	controlLoop_reset();
 	motordisable();
-	FixedValue.stateMachine_state = SMS_IDLE;
+	ControlVals.stateMachine_state = SMS_IDLE;
 }
 
 void stateMachine_stepIntoRun(void){
@@ -75,11 +75,11 @@ void stateMachine_stepIntoRun(void){
 	controlLoop_reset();
 	motorenable();
 //	stall_reset();
-	FixedValue.stateMachine_state = SMS_RUN;
+	ControlVals.stateMachine_state = SMS_RUN;
 }
 
 void stateMachine_stepIntoError(void){
-	FixedValue.stateMachine_state = SMS_ERROR;
+	ControlVals.stateMachine_state = SMS_ERROR;
 }
 
 

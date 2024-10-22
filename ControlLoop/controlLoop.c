@@ -8,26 +8,28 @@
 #include"sharedData.h"
 #include"initialconfig.h"
 #include"controlLoop.h"
+
+controlLoop_t ControlVals;
 void updateSpeedPIValues(void){
 	int16_t r = (int16_t)Measured.TargetRPM;
 
 	// for Kp
 	if (r > FixedValue.controlPI.speedPI_highRPMShelf){
-		Measured.controlLoop.speedPI_kp= FixedValue.controlPI.speedPI_kp_highRPM;
+		ControlVals.speedPI_kp= FixedValue.controlPI.speedPI_kp_highRPM;
 	} else if (r > FixedValue.controlPI.speedPI_lowRPMShelf){
 		int32_t uniqueDiff = FixedValue.controlPI.speedPI_highRPMShelf - r;
-		Measured.controlLoop.speedPI_kp = ((uniqueDiff * FixedValue.controlPI.speedPI_schMul) >> FixedValue.controlPI.speedPI_schMulSc) + FixedValue.controlPI.speedPI_kp_highRPM;
+		ControlVals.speedPI_kp = ((uniqueDiff * FixedValue.controlPI.speedPI_schMul) >> FixedValue.controlPI.speedPI_schMulSc) + FixedValue.controlPI.speedPI_kp_highRPM;
 	} else {
-		Measured.controlLoop.speedPI_kp = FixedValue.controlPI.speedPI_kp_lowRPM;
+		ControlVals.speedPI_kp = FixedValue.controlPI.speedPI_kp_lowRPM;
 	}
 
 	// for Ki
-	Measured.controlLoop.speedPI_ki = FixedValue.controlPI.speedPI_ki_lowRPM;
+	ControlVals.speedPI_ki = FixedValue.controlPI.speedPI_ki_lowRPM;
 }
 
 // To get the Iref value
 void speedPI(){
-	Measured.controlLoop.speedPI_error = (int32_t)Measured.TargetRPM - Measured.motorSpeed.speed;
+	ControlVals.speedPI_error = (int32_t)Measured.TargetRPM - Measured.motorSpeed.speed;
 //	controlVals.speedPI_error = (int32_t)controlVals.targetRPM - 0;
 	ControlVals.speedPI_integral += (int32_t)ControlVals.speedPI_error * (int32_t)ControlVals.speedPI_ki * (int32_t)ControlVals.speedPI_sat;
 	int16_t controlSignal = (int32_t)((ControlVals.speedPI_error * ControlVals.speedPI_kp) + ControlVals.speedPI_integral) >> FixedValue.controlPI.speedPI_scale;
