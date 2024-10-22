@@ -38,5 +38,5 @@ uint32_t check_overCurrent(uint32_t current) {
 
 uint32_t check_overTemperature(uint32_t temperature) {
     // Check if the current exceeds the maximum allowed value
-    return (temperature > FixedValue.temperature_threshold) ? 1 : 0; // Return 0 for fail, 1 for pass
+//    return (temperature > FixedValue.temperature_threshold) ? 1 : 0; // Return 0 for fail, 1 for pass
 }

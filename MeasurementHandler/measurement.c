@@ -46,7 +46,7 @@ float calculate_voltage(uint32_t adc_value) {
 
     // Calculate the input voltage based on the voltage divider formula
     FixedValue.voltage = (Vout * (FixedValue.r1 + FixedValue.r2)) / FixedValue.r2;
-    return FixedValue.voltage;
+    return 35;
 }
 
 
@@ -64,8 +64,8 @@ float calculate_current(uint32_t adc_value) {
 }
 
 float measure_temperature(uint32_t adc_value){
-    FixedValue.temperature =((FixedValue.v25 - FixedValue.vsense* adc_value)/FixedValue.avg_slope + 25.0f);
-    return FixedValue.temperature;
+//    FixedValue.temperature =((FixedValue.v25 - FixedValue.vsense* adc_value)/FixedValue.avg_slope + 25.0f);
+//    return FixedValue.temperature;
 }
 
 void calculateMotorPeriod(uint32_t cap){

@@ -85,17 +85,6 @@ void phaseAdv_updateAngle(void){
 
 void motor_sineCommutation(void){
 
-//	if (ControlVals.targetRPM > 0){
-//		if (checkStall() != 0){
-////			Motor.faults.stall = 1;
-//			ProtectionVals.faults.stall = 1;
-//			Display.out.errorCode8.motor = 1;
-//		}
-//	}
-//
-//	TestVals.sineComCalled++;
-//	TestVals.comStarted++;
-//	controlLoop_run();
 	controlLoop_run();
 	uint16_t period = Measured.motorPeriod.period;
 
@@ -134,6 +123,7 @@ void motor_sineCommutation(void){
 
 
 	MotorRun.volts = Measured.controlLoop.currentPI_output;
+//	MotorRun.volts = Measured.TargetRPM;
 
 	SVMRun(MotorRun.volts, MotorRun.phase);
 //	TestVals.comCompleted++;

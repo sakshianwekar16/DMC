@@ -142,9 +142,9 @@ void updatePWM(int angle, unsigned int half_t0, unsigned int t1,
 //	 Dutycycle1 =PDC1Latch;
 //	 Dutycycle2 =PDC2Latch;
 //	 Dutycycle3 =PDC3Latch;
-//	TIM1->CCR3 = PDC1Latch;
-//	TIM1->CCR2 = PDC3Latch;
-//	TIM1->CCR1 = PDC2Latch;
+//	TIM1->CCR3 = FixedValue.PDC1Latch;
+//	TIM1->CCR2 = FixedValue.PDC3Latch;
+//	TIM1->CCR1 = FixedValue.PDC2Latch;
 }
 
 

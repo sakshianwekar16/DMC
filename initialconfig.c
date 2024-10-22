@@ -30,7 +30,7 @@ void initialvalueassignment(void){
 	//voltage calculation
 	FixedValue.voltage = 0.0f;
 	FixedValue.r1 = 20000;
-	FixedValue.r2 = 12000;
+	FixedValue.r2 = 1200;
 	FixedValue.adcResolution = 4096;
 	FixedValue.ref_voltage = 3.3f;
 
@@ -38,8 +38,8 @@ void initialvalueassignment(void){
 	FixedValue.over_voltage_threshold= 48.0;
 	FixedValue.under_voltage_threshold = 28.0;
 	FixedValue.current_threshold = 20.0;
-	FixedValue.temperature_threshold =90.0;
-	FixedValue.throttle_start_adc = 1000;
+	FixedValue.temperature_threshold = 90.0;
+	FixedValue.throttle_start_adc = 1300;
 	FixedValue.max_rpm = 1300;
 	FixedValue.adc_max_value =4096;
 	FixedValue.maxRPMLimit = 922;

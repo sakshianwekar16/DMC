@@ -37,6 +37,7 @@ void stateMachine_handle(void){
 
 	case SMS_RUN:
 		if (Measured.TargetRPM > 0){
+			controlLoop_run();
 			motor_sineCommutation();
 //			motor_sixStepCommutation();
 		} else {
