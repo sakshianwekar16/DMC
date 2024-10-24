@@ -7,6 +7,7 @@
 #include "sharedData.h"
 #include"initialconfig.h"
 #include "define.h"
+#include "gpio.h"
 
 //FIXED_VALS_t fixedvalue;
 //MotorRun_t MotorRun;
@@ -35,24 +36,28 @@ uint32_t calculate_throttle(uint32_t adc_value,uint32_t max_rpm) {
 
 // Function to calculate the input voltage based on ADC value
 uint32_t calculate_voltage(uint32_t adc_value) {
+//	HAL_GPIO_WritePin(Buzzer_GPIO_Port, Buzzer_Pin, GPIO_PIN_SET);
     // Calculate the output voltage from ADC value
     uint32_t Vout = (adc_value * FixedValue.ref_voltage) / FixedValue.adcResolution;
+//	uint32_t Vout = adc_value * 0.08056640625 ;
 
     // Calculate the input voltage based on the voltage divider formula
-    uint32_t voltage = (Vout * (FixedValue.r1 + FixedValue.r2)) / FixedValue.r2;
+//    uint32_t voltage = (Vout * (FixedValue.r1 + FixedValue.r2)) / FixedValue.r2;
+      uint32_t voltage = Vout * 18;
     return voltage;
+//    HAL_GPIO_WritePin(Buzzer_GPIO_Port, Buzzer_Pin, GPIO_PIN_RESET);
 }
 
 
 uint32_t calculate_current(uint32_t adc_value) {
     // Apply a simple low-pass filter to smooth out the current measurement
-    uint32_t difference = adc_value - FixedValue.filtered_current;
-    uint32_t filtered_increment = difference / (1 << FixedValue.filter_shift);
+    int32_t difference = adc_value - FixedValue.filtered_current;
+    int32_t filtered_increment = difference / (1 << FixedValue.filter_shift);
     FixedValue.filtered_current += filtered_increment;
 
     // Calculate the actual current value in amperes
-    uint32_t current = ((FixedValue.filtered_current * FixedValue.ref_voltage) /( FixedValue.adcResolution* FixedValue.shunt_resistor * FixedValue.gain));
-
+    int32_t current = ((FixedValue.filtered_current * FixedValue.ref_voltage) /FixedValue.current_calibrationFactor);
+//    uint32_t current = ((FixedValue.filtered_current * FixedValue.ref_voltage) /174);
     // Return current as an unsigned int, assuming it's appropriate for your needs
     return current;
 }

@@ -30,9 +30,10 @@ void initialvalueassignment(void){
 	//current calculation
 	FixedValue.filtered_current = 0;
 	FixedValue.current_nominal = 1400;
-	FixedValue.shunt_resistor = 0.005;
-	FixedValue.gain = 8.5;
-	FixedValue.filter_shift =6;
+//	FixedValue.shunt_resistor = 0.005;
+//	FixedValue.gain = 8.5;
+	FixedValue.filter_shift = 6;
+	FixedValue.current_calibrationFactor = 4095* 0.005*8.5;
 
 	//voltage calculation
 	FixedValue.r1 = 2000000;

@@ -31,7 +31,7 @@ void pedal_riseIntHandler( uint32_t msec){
 
 void pedal_handle( uint32_t tick){
 
-	pedal_setLimits();
+//	pedal_setLimits();
 	int32_t pedalValue = PedalAssist.value - ((int32_t)(tick - PedalAssist.lastTick) / PedalAssist.derampFactor);
 	if (pedalValue < 0){
 		PedalAssist.value = 0;

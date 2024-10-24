@@ -39,7 +39,7 @@ void fast_loop(void) {
     Measured.Voltage.calculated = calculate_voltage(Measured.Voltage.raw);
     Protection.faults.overVolt = check_overvoltage(Measured.Voltage.calculated);
     Protection.faults.underVolt = check_undervoltage(Measured.Voltage.calculated);
-    Protection.faults.overCurrent = check_overCurrent(Measured.Current.calculated);
+//    Protection.faults.overCurrent = check_overCurrent(Measured.Current.calculated);
 }
 
 

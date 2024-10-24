@@ -37,8 +37,8 @@
 
 void handleDrivingInputSource(void){
 //    update_rpm_based_on_brake_status(Measured.brakeRaw);
-	pedal_handle();
-	calculate_throttle(Measured.throttle.raw,FixedValue.max_rpm);
+//	pedal_handle(HAL_GetTick());
+//	calculate_throttle(Measured.throttle.raw,FixedValue.max_rpm);
 
 	if (Measured.brakeRaw == 0){
 		Display.out.brake = 0x20;

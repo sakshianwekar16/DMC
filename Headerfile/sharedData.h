@@ -32,7 +32,7 @@ typedef struct {
     uint32_t ref_voltage, over_voltage_threshold, under_voltage_threshold, current_threshold, temperature_threshold; // Reference voltage
 
     //current calculation
-    float filtered_current, shunt_resistor, gain;
+    int32_t filtered_current, current_calibrationFactor;
     uint32_t current_nominal, filter_shift;
 
     //voltage calculation

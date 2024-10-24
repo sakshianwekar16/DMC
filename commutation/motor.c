@@ -76,7 +76,7 @@ MotorRun_t MotorRun;
 
 void phaseAdv_updateAngle(void){
 	if (Measured.motorSpeed.speed <= FixedValue.phaseAdv_baseSpeed){
-		float linearAdv = ((float)Measured.motorSpeed.speed / (float)FixedValue.phaseAdv_baseSpeed) * (float)FixedValue.phaseAdv_maxAngle;
+		float linearAdv = Measured.motorSpeed.speed / FixedValue.phaseAdv_baseSpeed * FixedValue.phaseAdv_maxAngle;
 		MotorRun.phaseAdv.advanceAngle = (linearAdv > FixedValue.phaseAdv_maxAngle)? FixedValue.phaseAdv_maxAngle : linearAdv;
 	} else {
 		MotorRun.phaseAdv.advanceAngle = FixedValue.phaseAdv_maxAngle;

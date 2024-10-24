@@ -29,6 +29,7 @@ void updateSpeedPIValues(void){
 
 // To get the Iref value
 void speedPI(){
+	updateSpeedPIValues();
 	ControlVals.speedPI_error = (int32_t)Measured.TargetRPM - Measured.motorSpeed.speed;
 //	controlVals.speedPI_error = (int32_t)controlVals.targetRPM - 0;
 	ControlVals.speedPI_integral += (int32_t)ControlVals.speedPI_error * (int32_t)ControlVals.speedPI_ki * (int32_t)ControlVals.speedPI_sat;

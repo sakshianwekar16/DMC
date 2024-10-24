@@ -73,7 +73,7 @@ void checkManualCruise(){
 
 void cruise_handle(){
 	checkThrottlePosition();
-//	setAutoCruiseIfThrottleStable();	// Comment this line to disable auto cruise
+	setAutoCruiseIfThrottleStable();	// Comment this line to disable auto cruise
 //	checkManualCruise();				// Comment this line to disable manual cruise
 }
 
